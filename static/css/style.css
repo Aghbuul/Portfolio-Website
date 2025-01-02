@@ -134,9 +134,10 @@ h1, h2, h3, h4, h5, h6,
         rgba(0, 51, 102, 0.7) 40%,
         rgba(0, 153, 255, 0.4) 100%
     );
-    z-index: 1;
+    z-index: 0;
     pointer-events: none;
 }
+
 .water-surface {
     position: absolute;
     top: 0;

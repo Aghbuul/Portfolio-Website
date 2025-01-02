@@ -55,11 +55,16 @@ function configureParticles(containerId, isBelowTop = false) {
             }
         },
         interactivity: {
-            detect_on: 'canvas',
+            detect_on: containerId === 'particles-js' ? 'window' : 'canvas',
             events: {
                 onhover: {
                     enable: true,
-                    mode: 'grab'
+                    mode: 'grab',
+                    parallax: {
+                        enable: containerId === 'particles-js',
+                        force: 60,
+                        smooth: 10
+                    }
                 },
                 onclick: {
                     enable: true,
@@ -71,7 +76,7 @@ function configureParticles(containerId, isBelowTop = false) {
                 grab: {
                     distance: 80,
                     line_linked: {
-                        opacity: 0.5 // Line transparency
+                        opacity: 0.5
                     }
                 },
                 push: {
