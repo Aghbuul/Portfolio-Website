@@ -4,8 +4,6 @@
     --text-color: #e0f7ff;
     --light-text: #ffffff;
     --bg-color: #001830;
-    --heading-font: 'Outfit', sans-serif;
-    --body-font: 'Rubik', sans-serif;
 }
 
 @keyframes blink {
@@ -30,27 +28,10 @@
 }
 
 body {
-    font-family: var(--body-font);
+    font-family: 'Inter', sans-serif;
     background-color: var(--bg-color);
     color: var(--text-color);
     line-height: 1.6;
-    font-weight: 400;
-}
-
-h1, h2, h3, h4, h5, h6, 
-.navbar-brand,
-.section-title {
-    font-family: var(--heading-font);
-    font-weight: 600;
-}
-
-.degree, .position {
-    font-family: var(--heading-font);
-    font-weight: 500;
-}
-
-p, .education-details, .experience-item {
-    font-weight: 400;
 }
 
 /* Navigation */
