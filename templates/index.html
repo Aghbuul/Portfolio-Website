@@ -62,7 +62,7 @@
 
     <!-- Hero Section -->
     <section id="home" class="hero">
-        <div id="particles-js"></div>
+        <div id="particles-js"></div>=
         <div class="container">
             <div class="hero-content" data-aos="fade-up">
                 <div class="row align-items-center">
@@ -439,7 +439,8 @@
     </script>
 
     <!-- React Development Dependencies -->
-    <script src="https://unpkg.com/react@18/umd/react.development.min.js"></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.min.js"></script>
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+    <script src="{{ url_for('static', filename='js/bubbles.js') }}"></script>
 </body>
 </html>
