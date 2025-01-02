@@ -26,3 +26,41 @@ An interactive portfolio website featuring a unique underwater theme, built with
 1. Clone the repository:
    ```bash
    git clone https://github.com/Aghbuul/Portfolio-Website.git
+   ```
+
+2. Install dependencies:
+   ```bash
+   pip install flask
+   ```
+
+3. Run the application:
+   ```bash
+   python main.py
+   ```
+
+4. Open `http://localhost:5000` in your browser
+
+## 🔧 Project Structure
+
+```
+├── app.py              # Flask application setup
+├── main.py            # Main entry point
+├── static/
+│   ├── css/           # Stylesheets
+│   ├── js/            # JavaScript files
+│   └── images/        # Image assets
+└── templates/
+    └── index.html     # Main HTML template
+```
+
+## 🚀 Deployment
+
+This site is deployed on (https://akuane.com/). It can be easily deployed on platforms like:
+- Replit
+- Heroku
+- PythonAnywhere
+- Vercel
+
+## 📝 License
+
+This project is licensed under the Apache License - see the LICENSE file for details.
