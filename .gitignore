@@ -1,0 +1,19 @@
+
+# Personal assets
+static/images/*
+attached_assets/*
+
+# Keep specific images that should be versioned
+!static/images/weblogo.ico
+
+# Replit chat logs and temporary files
+*txt
+.replit
+.breakpoints
+replit.nix
+uv.lock
+export_files.py
+
+# Python cache
+__pycache__/
+*.pyc

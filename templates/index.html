@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Open Graph / Social Media Preview -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Literally Aqua">
+    <meta property="og:description" content="My portfolio website">
+    <meta property="og:image" content="https://literallyaqua.replit.app/static/images/webprev.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:url" content="https://literallyaqua.replit.app">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Literally Aqua">
+    <meta name="twitter:description" content="My portfolio website">
+    <meta name="twitter:image" content="https://literallyaqua.replit.app/static/images/webprev.jpg">
+
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/weblogo.ico') }}">
+    <link rel="icon" href="{{ url_for('static', filename='images/weblogo.ico') }}" type="image/x-icon">
+    <title>Akuane</title>
+
+    <!-- CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <!-- <div id="nav-particles" class="particles-background"></div> -->
+        <div class="container">
+            <a class="navbar-brand" href="#home">Literally Aqua</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown">
+                            <span class="navbar-toggler-icon"></span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark">
+                            <li><a class="dropdown-item" href="#home">Home</a></li>
+                            <li><a class="dropdown-item" href="#featured-projects">Featured Projects</a></li>
+                            <li><a class="dropdown-item" href="#education">Education</a></li>
+                            <li><a class="dropdown-item" href="#skills">Skills</a></li>
+                            <li><a class="dropdown-item" href="#experience">Experience</a></li>
+                            <li><a class="dropdown-item" href="#awards">Awards</a></li>
+                            
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+                 
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div id="particles-js"></div>
+        <div class="container">
+            <div class="hero-content" data-aos="fade-up">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <h1>Iqbal</h1>
+                        <p class="lead"><span id="typed-text"></span></p>
+                        <div class="social-icons">
+                            <a href="https://www.linkedin.com/in/kmmtt/" target="_blank" class="social-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-linkedin"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+                            </a>
+                            <a href="https://github.com/Aghbuul" target="_blank" class="social-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="profile-image-container">
+                            <img src="{{ url_for('static', filename='images/profile.jpg') }}" alt="Profile" class="profile-image">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="featured-projects" class="py-5">
+        <div id="projects-particles" class="particles-background"></div>
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">Featured Projects</h2>
+
+            <div id="projectCarousel" class="carousel slide" data-bs-ride="carousel">
+                <!-- Indicators -->
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#projectCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#projectCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#projectCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                    <button type="button" data-bs-target="#projectCarousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
+                </div>
+
+                <!-- Carousel items -->
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <div class="project-card" onclick="showProjectDetails(0)">
+                            <img src="/static/images/CarouselPreview1.jpg" alt="Portfolio Website">
+                            <div class="content">
+                                <h3>Portfolio Website</h3>
+                                <p>An interactive personal portfolio website with an underwater theme, built from scratch using Replit and Claude.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="project-card" onclick="showProjectDetails(1)">
+                            <img src="/static/images/CarouselPreview2.jpg" alt="Disease Modelling App">
+                            <div class="content">
+                                <h3>Disease Modelling App</h3>
+                                <p>Interactive epidemiological modeling application built with R Shiny demonstrating SEIR model dynamics.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="carousel-item">
+                        <div class="project-card" onclick="showProjectDetails(2)">
+                            <img src="/static/images/CarouselPreview4.jpg" alt="Pixel Art Generator">
+                            <div class="content">
+                                <h3>Pixel Art Generator</h3>
+                                <p>Web-based pixel art animation tool built with JavaScript and HTML5 Canvas, featuring real-time image processing and video export capabilities.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="carousel-item">
+                        <div class="project-card" onclick="showProjectDetails(3)">
+                            <img src="/static/images/CarouselPreview3.jpg" alt="GitHub Repo">
+                            <div class="content">
+                                <h3>GitHub Repo</h3>
+                                <p>You can find my other projects on GitHub. Click on this tab to see a list of projects and their descriptions.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Controls -->
+                <button class="carousel-control-prev" type="button" data-bs-target="#projectCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#projectCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Education Section -->
+    <section id="education" class="py-5">
+        <div id="education-particles" class="particles-background"></div>
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">
+                Education
+            </h2>
+            <div class="row">
+                <div class="col-md-6" data-aos="fade-up" data-aos-delay="100">
+                    <div class="education-card">
+                        <h3>University of Oxford</h3>
+                        <p class="degree">MSc Modelling for Global Health</p>
+                        <p class="year">2024-2025</p>
+                        <div class="education-details">
+                            <p>Focused on applying mathematical modelling to global health systems, bridging epidemiology, economics, and policy.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6" data-aos="fade-up" data-aos-delay="200">
+                    <div class="education-card">
+                        <h3>University College London</h3>
+                        <p class="degree">BSc Human Genetics</p>
+                        <p class="year">2017-2020</p>
+                        <div class="education-details">
+                            <p>Foundation in computational biology, ageing, and evolutionary genetics.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Skills Section -->
+    <section id="skills" class="py-5">
+        <div id="skills-particles" class="particles-background"></div>
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">
+                Skills
+            </h2>
+            <div class="row">
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+                    <!-- Popup temporarily disabled -->
+                    <div class="skill-card">
+                        <h3>Programming</h3>
+                        <p>Building web apps and tools with Python, JavaScript and HTML/CSS.</p>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="skill-card">
+                        <h3>Tool Building</h3>
+                        <p>Highly custom web tools and scripts for specialised workflows.</p>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="skill-card">
+                        <h3>Statistics</h3>
+                        <p>R for data analysis, mathematical modelling, and hypothesis testing.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="skill-card">
+                        <h3>Bioinformatics</h3>
+                        <p>Genomic annotation and analysis tools (eg. UCSC Genome Browser, DAVID).</p>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="skill-card">
+                        <h3>Coaching Psychology</h3>
+                        <p>Trained in active listening and conflict resolution.</p>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="skill-card">
+                        <h3>Languages</h3>
+                        <p>Fluent in Burmese and English; rudimentary Japanese.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI Tools Section -->
+    <section id="ai-tools" class="py-5">
+        <div id="aitools-particles" class="particles-background"></div>
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">
+                AI Tools
+            </h2>
+            <div class="row">
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="skill-card">
+                        <h3>LLMs</h3>
+                        <p>Highly experienced at crafting prompts and workflows to maximise efficiency.</p>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="skill-card">
+                        <h3>Replit Agent</h3>
+                        <p>Coding, debugging, and collaborating seamlessly in Replit's IDE.</p>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="skill-card">
+                        <h3>Other AI tools I like:</h3>
+                        <p>Consensus.ai, Perplexity.ai, Stable Diffusion, Midjourney & Otter.ai</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="py-5">
+        <div id="experience-particles" class="particles-background"></div>
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">
+                Experience
+            </h2>
+            <div class="row">
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="experience-card">
+                        <h3>Research</h3>
+                        <div class="experience-item">
+                            <h4>Institute of Healthy Ageing</h4>
+                            <p class="position">BSc Dissertation Research</p>
+                            <p class="location">University College London</p>
+                        </div>
+                        <div class="experience-item">
+                            <h4>Department of Genetics</h4>
+                            <p class="position">Lab Intern</p>
+                            <p class="location">University College London</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="experience-card">
+                        <h3>Entrepreneurship</h3>
+                        <div class="experience-item">
+                            <h4>Instinct Myanmar</h4>
+                            <p class="position">Founder</p>
+                            <p class="location">Built and singlehandedly managed a health product import business in Yangon. Among other things, I conducted market analysis and negotiations with suppliers, and personally handled customer service, social media advertising and delivery logistics.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="experience-card">
+                        <h3>Teaching</h3>
+                        <div class="experience-item">
+                            <h4>Kings Yangon</h4>
+                            <p class="position">Biology & Chemistry Teacher</p>
+                            <p class="location">Yangon, Myanmar</p>
+                        </div>
+                        <div class="experience-item">
+                            <h4>Acumen Intl College</h4>
+                            <p class="position">Chemistry Teacher</p>
+                            <p class="location">Yangon, Myanmar</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Awards Section -->
+    <section id="awards" class="py-5">
+        <div id="awards-particles" class="particles-background"></div>
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">
+                Awards
+            </h2>
+            <div class="row">
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="skill-card">
+                        <h3>Bronze Medal</h3>
+                        <p>11th International Junior Science Olympiad (2014, Argentina)</p>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="skill-card">
+                        <h3>Gold Medal</h3>
+                        <p>Golden Climate International Environmental Olympiad (2014, Kenya)</p>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="skill-card">
+                        <h3>Bronze Medal</h3>
+                        <p>International Environmental Project Olympiad (2013, Turkey)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Details Modal -->
+    <div class="modal fade" id="projectModal" tabindex="-1">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="project-detail-image"></div>
+                    <div class="project-detail-content"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Skills Details Modal -->
+    <div class="modal fade" id="skillModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Required JavaScript Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <!-- Custom JavaScript Files -->
+    <script src="{{ url_for('static', filename='js/particles-config.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+    <!-- Typed.js Configuration -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var typed = new Typed('#typed-text', {
+            strings: [               
+                'Modelling for Global Health',
+                'AI Applications'
+            ],
+            typeSpeed: window.innerWidth <= 768 ? 30 : 15,  // Slower on mobile   
+            backSpeed: window.innerWidth <= 768 ? 300 : 200,  // Slower on mobile      
+            backDelay: 2000,        
+            startDelay: 2000,       
+            loop: true,
+                showCursor: true,
+                cursorChar: '|',
+                cursorBlinking: true,   // Enable cursor blinking
+                smartBackspace: true,   // Optimize backspacing
+                fadeOut: true,          // Smooth transitions
+                fadeOutClass: 'typed-fade-out',
+                fadeOutDelay: 500
+            });
+        });
+    </script>
+
+    <!-- Particle.js Initialization -->
+    <script>
+        window.addEventListener('load', function() {
+            const particleContainers = [
+                'particles-js',
+                'education-particles',
+                'projects-particles',
+                'skills-particles',
+                'aitools-particles',
+                'experience-particles',
+                'awards-particles'
+            ];
+
+            setTimeout(() => {
+                particleContainers.forEach(containerId => {
+                    const container = document.getElementById(containerId);
+                    if (container) {
+                        configureParticles(containerId, containerId !== 'particles-js');
+                    }
+                });
+            }, 100);
+        });
+    </script>
+
+    <!-- React Development Dependencies -->
+    <script src="https://unpkg.com/react@18/umd/react.development.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.min.js"></script>
+</body>
+</html>
