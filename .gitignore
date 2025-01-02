@@ -17,3 +17,5 @@ export_files.py
 # Python cache
 __pycache__/
 *.pyc
+
+generated-icon.png
