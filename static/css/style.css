@@ -4,6 +4,8 @@
     --text-color: #e0f7ff;
     --light-text: #ffffff;
     --bg-color: #001830;
+    --heading-font: 'Montserrat', sans-serif;
+    --body-font: 'Open Sans', sans-serif;
 }
 
 @keyframes blink {
@@ -28,10 +30,23 @@
 }
 
 body {
-    font-family: 'Inter', sans-serif;
+    font-family: var(--body-font);
     background-color: var(--bg-color);
     color: var(--text-color);
     line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6, 
+.navbar-brand,
+.section-title {
+    font-family: var(--heading-font);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+}
+
+.degree, .position {
+    font-family: var(--heading-font);
+    font-weight: 500;
 }
 
 /* Navigation */
@@ -339,6 +354,7 @@ body {
 .experience-item h4 {
     color: var(--light-text);
     margin-bottom: 0.5rem;
+    font-size: 1.2rem;
 }
 
 .experience-item .position {
