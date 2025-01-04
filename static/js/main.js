@@ -188,6 +188,51 @@ const projectDetails = [
     </div>`
     },
     {
+        title: "Anime Sigil Eyes",
+        image: "/static/images/CarouselPreview5.jpg",
+        content: `
+            <h3>Anime Sigil Eyes</h3>
+            <p>A sophisticated web application that leverages machine learning - specifically, Google's MediaPipe Face Mesh - for precise facial landmark detection. It automatically detects eyes in an uploaded image to overlay customisable sigils onto eyes in photographsdeveloped entirely using AI assistance and modern web technologies.</p>
+            <p>You can try it <a href="https://anime-eyes.replit.app/" target="_blank" style="color: #64ffda; text-decoration: underline;">here</a>.</p>
+            <p>This was developed with heavy assistance from Replit Agent and Anthropic's Claude. Special thanks to my friend who told me to "Just talk to [Claude] like you hired an engineer" for inspiring me.</p>
+
+            <h4>Face Detection Pipeline</h4>
+            <ul>
+                <li>Implements Google's MediaPipe Face Mesh (Apache 2.0 license)</li>
+                <li>Detects 468 facial landmarks at 30+ FPS</li>
+                <li>Utilises landmarks 468/473 for precise eye centre detection</li>
+                <li>Client-side ML processing for privacy and performance</li>
+                <li>Real-time landmark tracking with sub-pixel accuracy</li>
+            </ul>
+
+            <h4>Development Stack</h4>
+            <ul>
+                <li>Frontend: React 18.3 with TypeScript, Vite build system, TailwindCSS + shadcn/ui components</li>
+                <li>Backend: Express.js with TypeScript, PostgreSQL + Drizzle ORM, RESTful API architecture</li>
+            </ul>
+
+            <h4>Technical Features</h4>
+            <ul>
+                <li>Drag-and-drop interface with synthetic event handling</li>
+                <li>Independent transform controls per sigil</li>
+                <li>Real-time preview system</li>
+                <li>Cross-browser compatibility layer</li>
+            </ul>
+
+            <p>Developed using Replit's development environment with AI assistance (Replit AI + Claude).</p>
+
+            <div style="margin-top: 2rem; display: flex; flex-direction: column; gap: 1rem; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1rem;">
+    <a href="https://anime-eyes.replit.app/" target="_blank" style="color: #64ffda; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7"></path><line x1="16" y1="5" x2="22" y2="5"></line><line x1="22" y1="5" x2="22" y2="11"></line><line x1="16" y1="5" x2="22" y2="11"></line></svg>
+        Try Now
+    </a>
+    <a href="https://github.com/yourusername/eye-sigil-generator" target="_blank" style="color: #64ffda; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+        View on GitHub
+    </a>
+</div>`
+    },
+    {
         title: "GitHub Repository",
         image: "/static/images/CarouselPreview3.jpg",
         content: `
