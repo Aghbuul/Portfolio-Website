@@ -712,7 +712,7 @@ section::before {
 /* Mobile adjustments */
 @media (max-width: 768px) {
     .project-card {
-        aspect-ratio: 3/4;
+        aspect-ratio: 3/5;
     }
 
     .project-card img {
