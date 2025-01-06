@@ -252,31 +252,84 @@ const projectDetails = [
 </div>`
     },
     {
-        title: "GitHub Repository",
+        title: "Project Directory",
         image: "/static/images/CarouselPreview3.jpg",
         content: `
-            <h3>GitHub Project Repository</h3>
-            <p class="mb-4">A collection of various coding projects and experiments in R and Python.</p>
+            <h3>Project Directory</h3>
+            <p class="mb-4">A comprehensive overview of all my projects.</p>
 
             <div class="project-list">
-                <div style="background: rgba(255,255,255,0.05); border-radius: 8px; padding: 1.5rem; margin-bottom: 1rem; transition: all 0.3s ease;">
-                    <a href="https://github.com/Aghbuul/SEIR-Model-Templates" target="_blank" style="color: #64ffda; text-decoration: none; font-size: 1.2rem; font-weight: 600;">SEIR Model Templates</a>
-                    <p style="margin-top: 0.5rem; color: #a8b2d1;">A collection of simple, ready-to-use SEIR model templates implemented in R.</p>
-                </div>
+    <div style="background: rgba(255,255,255,0.05); border-radius: 8px; padding: 1.5rem; margin-bottom: 1rem; transition: all 0.3s ease;">
+        <h4 style="color: #64ffda; margin-bottom: 0.5rem;">Portfolio Website</h4>
+        <p style="color: #a8b2d1;">An interactive personal portfolio with underwater theme, demonstrating how AI assistance can help create production-ready websites from scratch. Features particle animations, dynamic content loading, and responsive design.</p>
+        <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+            <a href="https://github.com/Aghbuul/Portfolio-Website" target="_blank" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; border-radius: 4px; background: rgba(100, 255, 218, 0.1); color: #64ffda; text-decoration: none; font-size: 0.9rem; border: 1px solid #64ffda; transition: all 0.2s ease-in-out;" onmouseover="this.style.background='rgba(100, 255, 218, 0.2)'; this.style.transform='scale(1.05)'" onmouseout="this.style.background='rgba(100, 255, 218, 0.1)'; this.style.transform='scale(1)'">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                GitHub
+            </a>
+        </div>
+    </div>
 
-                <div style="background: rgba(255,255,255,0.05); border-radius: 8px; padding: 1.5rem; margin-bottom: 1rem; transition: all 0.3s ease;">
-                    <a href="https://github.com/Aghbuul/Hoyo-Monte_Carlo" target="_blank" style="color: #64ffda; text-decoration: none; font-size: 1.2rem; font-weight: 600;">Hoyo Monte Carlo</a>
-                    <p style="margin-top: 0.5rem; color: #a8b2d1;">A Monte Carlo simulation that approximates Genshin Impact's wish system.</p>
-                </div>
-            </div>
+    <div style="background: rgba(255,255,255,0.05); border-radius: 8px; padding: 1.5rem; margin-bottom: 1rem; transition: all 0.3s ease;">
+        <h4 style="color: #64ffda; margin-bottom: 0.5rem;">SEIR Disease Modelling App</h4>
+        <p style="color: #a8b2d1;">Interactive R Shiny application for epidemiological modelling, featuring real-time parameter adjustments, multiple scenario comparisons, and data export capabilities.</p>
+        <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+            <a href="https://github.com/Aghbuul/interactive-seir-app" target="_blank" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; border-radius: 4px; background: rgba(100, 255, 218, 0.1); color: #64ffda; text-decoration: none; font-size: 0.9rem; border: 1px solid #64ffda; transition: all 0.2s ease-in-out;" onmouseover="this.style.background='rgba(100, 255, 218, 0.2)'; this.style.transform='scale(1.05)'" onmouseout="this.style.background='rgba(100, 255, 218, 0.1)'; this.style.transform='scale(1)'">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                GitHub
+            </a>
+        </div>
+    </div>
 
-            <div style="margin-top: 2rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.1);">
-                <a href="https://github.com/Aghbuul" target="_blank" style="color: #64ffda; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-                    View Full Profile on GitHub
-                </a>
-            </div>`
-    }
+    <div style="background: rgba(255,255,255,0.05); border-radius: 8px; padding: 1.5rem; margin-bottom: 1rem; transition: all 0.3s ease;">
+        <h4 style="color: #64ffda; margin-bottom: 0.5rem;">Pixel Art Generator</h4>
+        <p style="color: #a8b2d1;">Web-based tool for creating pixel art animations and sprite sheets. Features real-time image processing, animation creation, and video export capabilities using pure JavaScript and HTML5 Canvas.</p>
+        <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+            <a href="https://pixel-art-generator.replit.app" target="_blank" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; border-radius: 4px; background: rgba(100, 255, 218, 0.1); color: #64ffda; text-decoration: none; font-size: 0.9rem; border: 1px solid #64ffda; transition: all 0.2s ease-in-out;" onmouseover="this.style.background='rgba(100, 255, 218, 0.2)'; this.style.transform='scale(1.05)'" onmouseout="this.style.background='rgba(100, 255, 218, 0.1)'; this.style.transform='scale(1)'">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7"></path><line x1="16" y1="5" x2="22" y2="5"></line><line x1="22" y1="5" x2="22" y2="11"></line><line x1="16" y1="5" x2="22" y2="11"></line></svg>
+                Try Now
+            </a>
+            <a href="https://github.com/Aghbuul/pixelcraft-studio" target="_blank" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; border-radius: 4px; background: rgba(100, 255, 218, 0.1); color: #64ffda; text-decoration: none; font-size: 0.9rem; border: 1px solid #64ffda; transition: all 0.2s ease-in-out;" onmouseover="this.style.background='rgba(100, 255, 218, 0.2)'; this.style.transform='scale(1.05)'" onmouseout="this.style.background='rgba(100, 255, 218, 0.1)'; this.style.transform='scale(1)'">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                GitHub
+            </a>
+        </div>
+    </div>
+
+    <div style="background: rgba(255,255,255,0.05); border-radius: 8px; padding: 1.5rem; margin-bottom: 1rem; transition: all 0.3s ease;">
+        <h4 style="color: #64ffda; margin-bottom: 0.5rem;">Anime Sigil Eyes</h4>
+        <p style="color: #a8b2d1;">ML-powered web application that detects facial features and overlays customisable anime-style sigils onto eyes, with real-time adjustments and export capabilities.</p>
+        <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+            <a href="https://anime-eyes.replit.app" target="_blank" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; border-radius: 4px; background: rgba(100, 255, 218, 0.1); color: #64ffda; text-decoration: none; font-size: 0.9rem; border: 1px solid #64ffda; transition: all 0.2s ease-in-out;" onmouseover="this.style.background='rgba(100, 255, 218, 0.2)'; this.style.transform='scale(1.05)'" onmouseout="this.style.background='rgba(100, 255, 218, 0.1)'; this.style.transform='scale(1)'">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7"></path><line x1="16" y1="5" x2="22" y2="5"></line><line x1="22" y1="5" x2="22" y2="11"></line><line x1="16" y1="5" x2="22" y2="11"></line></svg>
+                Try Now
+            </a>
+            <a href="https://github.com/Aghbuul/Anime-Sigil-Eyes" target="_blank" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; border-radius: 4px; background: rgba(100, 255, 218, 0.1); color: #64ffda; text-decoration: none; font-size: 0.9rem; border: 1px solid #64ffda; transition: all 0.2s ease-in-out;" onmouseover="this.style.background='rgba(100, 255, 218, 0.2)'; this.style.transform='scale(1.05)'" onmouseout="this.style.background='rgba(100, 255, 218, 0.1)'; this.style.transform='scale(1)'">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                GitHub
+            </a>
+        </div>
+    </div>
+
+    <div style="background: rgba(255,255,255,0.05); border-radius: 8px; padding: 1.5rem; margin-bottom: 1rem; transition: all 0.3s ease;">
+        <h4 style="color: #64ffda; margin-bottom: 0.5rem;">SEIR Model Templates</h4>
+        <p style="color: #a8b2d1;">Collection of ready-to-use SEIR model templates in R, designed for quick implementation in epidemiological research and analysis.</p>
+        <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+            <a href="https://github.com/Aghbuul/SEIR-Model-Templates" target="_blank" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; border-radius: 4px; background: rgba(100, 255, 218, 0.1); color: #64ffda; text-decoration: none; font-size: 0.9rem; border: 1px solid #64ffda; transition: all 0.2s ease-in-out;" onmouseover="this.style.background='rgba(100, 255, 218, 0.2)'; this.style.transform='scale(1.05)'" onmouseout="this.style.background='rgba(100, 255, 218, 0.1)'; this.style.transform='scale(1)'">
+   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+   GitHub
+</a>
+           </div>
+       </div>
+   </div>
+
+   <div style="margin-top: 2rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.1);">
+       <a href="https://github.com/Aghbuul" target="_blank" style="color: #64ffda; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+           View Full Profile on GitHub
+       </a>
+   </div>`
+        }
 ];
 
     function showProjectDetails(index) {

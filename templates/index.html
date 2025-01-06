@@ -7,16 +7,16 @@
     <meta property="og:type" content="website">
     <meta property="og:title" content="Akuane">
     <meta property="og:description" content="My portfolio website">
-    <meta property="og:image" content="https://literallyaqua.replit.app/static/images/webprev.jpg">
+    <meta property="og:image" content="https://aquane.replit.app/static/images/webprev.jpg">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:url" content="https://literallyaqua.replit.app">
+    <meta property="og:url" content="https://aquane.replit.app">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Akuane">
     <meta name="twitter:description" content="My portfolio website">
-    <meta name="twitter:image" content="https://literallyaqua.replit.app/static/images/webprev.jpg">
+    <meta name="twitter:image" content="https://aquane.replit.app/static/images/webprev.jpg">
 
     <link rel="shortcut icon" href="{{ url_for('static', filename='images/weblogo.ico') }}">
     <link rel="icon" href="{{ url_for('static', filename='images/weblogo.ico') }}" type="image/x-icon">
@@ -149,13 +149,15 @@
 
                     <div class="carousel-item">
                         <div class="project-card" onclick="showProjectDetails(4)">
-                            <img src="/static/images/CarouselPreview3.jpg" alt="GitHub Repo">
+                            <img src="/static/images/CarouselPreview3.jpg" alt="Project Directory">
                             <div class="content">
-                                <h3>GitHub Repo</h3>
-                                <p>You can find my other projects on GitHub. Click on this tab to see a list of projects and their descriptions.</p>
+                                <h3>Project Directory</h3>
+                                <p>A complete catalogue of all my projects with detailed descriptions. Click to explore the full collection.</p>
                             </div>
                         </div>
                     </div>
+
+                    
                 </div>
 
                 <!-- Controls -->
@@ -413,11 +415,11 @@
         document.addEventListener('DOMContentLoaded', function() {
             var typed = new Typed('#typed-text', {
             strings: [               
-                'AI Enthusiast and Generalist'
+                'Learning by Doing'
             ],
-            typeSpeed: window.innerWidth <= 768 ? 40 : 25,  // Slower on mobile   
-            backSpeed: window.innerWidth <= 768 ? 400 : 300,  // Slower on mobile      
-            backDelay: 5000,        
+            typeSpeed: window.innerWidth <= 768 ? 60 : 40,  // Slower on mobile   
+            backSpeed: window.innerWidth <= 768 ? 600 : 400,  // Slower on mobile      
+            backDelay: 20000,        
             startDelay: 2000,       
             loop: true,
                 showCursor: true,
