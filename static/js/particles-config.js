@@ -4,7 +4,7 @@ function configureParticles(containerId, isBelowTop = false) {
     const config = {
         particles: {
             number: {
-                value: isBelowTop ? 50 : 80,
+                value: isBelowTop ? 35 : 50,
                 density: { enable: true, value_area: 800 }
             },
             color: { 
@@ -41,17 +41,12 @@ function configureParticles(containerId, isBelowTop = false) {
             },
             move: {
                 enable: true,
-                speed: isBelowTop ? 2 : 1.5,
+                speed: isBelowTop ? 1.5 : 1.2,
                 direction: 'top',
                 random: true,
                 straight: false,
                 out_mode: 'out',
                 bounce: false,
-                attract: {
-                    enable: true,
-                    rotateX: 300,
-                    rotateY: 600
-                }
             }
         },
         interactivity: {
@@ -84,7 +79,7 @@ function configureParticles(containerId, isBelowTop = false) {
                 }
             }
         },
-        retina_detect: true
+        retina_detect: false
     };
 
     // Initialize particles with this configuration
