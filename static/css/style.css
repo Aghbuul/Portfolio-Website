@@ -52,13 +52,22 @@ h1, h2, h3, h4, h5, h6,
 /* Navigation */
 .navbar {
     background-color: rgba(10, 25, 47, 0.95);
-    padding: 1rem 0;
+    padding: 0;  /* Remove padding */
     position: fixed;
     width: 100%;
     top: 0;
     z-index: 10000;
     transition: all 0.3s ease;
     backdrop-filter: blur(5px);
+    height: 4rem;  /* Fixed height */
+    display: flex;
+    align-items: center;
+}
+
+.navbar .container {
+    height: 100%;
+    display: flex;
+    align-items: center;
 }
 
 .navbar .dropdown-menu {
@@ -75,8 +84,21 @@ h1, h2, h3, h4, h5, h6,
 }
 
 .navbar-brand {
-    color: var(--secondary-color) !important;
-    font-weight: 700;
+    padding: 0;
+    display: flex;
+    align-items: center;
+}
+
+.navbar-brand img {
+    height: 100px;  /* Adjust this value to match your desired logo height */
+    width: auto;
+    transition: all 0.3s ease;
+    filter: brightness(1);  /* Makes sure the transparent PNG is visible */
+}
+
+.navbar-brand:hover img {
+    transform: scale(1.05);  /* Slight grow effect on hover */
+    filter: brightness(1.2);  /* Slight brightness increase on hover */
 }
 
 .nav-link {
