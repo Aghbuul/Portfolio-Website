@@ -833,18 +833,22 @@ section::before {
     bottom: -10%;
     background-size: cover;
     background-position: center;
-    opacity: 0;
+    opacity: 0.01;
     transition: all 0.3s ease-in-out;
     z-index: -1;
     pointer-events: none;
 }
 
 .skill-card::before {
-    background-image: url('/static/images/aqua-frame3.png');
+    background-image: url('/static/images/aqua-frame1.png');
 }
 
 .education-card::before {
-    background-image: url('/static/images/aqua-frame2.png');
+    background-image: url('/static/images/aqua-frame1.png');
+}
+
+.experience-card::before {
+    background-image: url('/static/images/aqua-frame5.png');
 }
 
 /* Add hover states */
@@ -852,7 +856,7 @@ section::before {
 .education-card:hover::before,
 .experience-card:hover::before,
 .awards-card:hover::before {
-    opacity: 0.2;
+    opacity: 0.07;
     transform: translateY(-5px);
 }
 
