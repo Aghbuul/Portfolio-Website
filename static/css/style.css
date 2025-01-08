@@ -64,6 +64,16 @@ h1, h2, h3, h4, h5, h6,
     align-items: center;
 }
 
+@media (max-width: 768px) {
+    .navbar {
+        height: 3.5rem;
+    }
+
+    .navbar .container {
+        padding: 0 1rem;
+    }
+}
+
 .navbar .container {
     height: 100%;
     display: flex;
@@ -96,9 +106,17 @@ h1, h2, h3, h4, h5, h6,
     filter: brightness(1);  /* Makes sure the transparent PNG is visible */
 }
 
+@media (max-width: 768px) {
+    .navbar-brand img {
+        height: 50px;
+        margin: 0;
+        position: static;
+    }
+}
+
 .navbar-brand:hover img {
-    transform: scale(1.05);  /* Slight grow effect on hover */
-    filter: brightness(1.2);  /* Slight brightness increase on hover */
+    transform: scale(1.02);  /* Slight grow effect on hover */
+    filter: brightness(1.1);  /* Slight brightness increase on hover */
 }
 
 .nav-link {
