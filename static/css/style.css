@@ -816,20 +816,21 @@ section::before {
 }
 
 .skill-card, .education-card, .experience-card, .cv-card {
-    position: relative;
-    z-index: 1;
-    transition: all 0.3s ease-in-out;
-    background: rgba(255, 255, 255, 0.05);
+    position: relative; 
+    z-index: 1;         
+    transition: all 0.3s ease-in-out, background-color 0.5s ease;
 }
 
-.skill-card::before {
+.skill-card::before,
+.education-card::before,
+.experience-card::before,
+.awards-card::before {
     content: '';
     position: absolute;
     top: -10%;
     left: -10%;
     right: -10%;
     bottom: -10%;
-    background-image: url('/static/images/aqua-frame1.png');
     background-size: cover;
     background-position: center;
     opacity: 0;
@@ -838,11 +839,24 @@ section::before {
     pointer-events: none;
 }
 
-.skill-card:hover::before {
-    opacity: 0.25;
+.skill-card::before {
+    background-image: url('/static/images/aqua-frame3.png');
+}
+
+.education-card::before {
+    background-image: url('/static/images/aqua-frame2.png');
+}
+
+/* Add hover states */
+.skill-card:hover::before,
+.education-card:hover::before,
+.experience-card:hover::before,
+.awards-card:hover::before {
+    opacity: 0.2;
     transform: translateY(-5px);
 }
 
+/* Keep your existing hover styles */
 .skill-card:hover, .education-card:hover, 
 .experience-card:hover, .cv-card:hover {
     transform: translateY(-5px);
