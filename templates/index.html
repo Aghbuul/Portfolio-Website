@@ -22,6 +22,12 @@
     <link rel="icon" href="{{ url_for('static', filename='images/weblogo.ico') }}" type="image/x-icon">
     <title>Akuane</title>
 
+    <!-- Critical preloads -->
+    <link rel="preload" href="{{ url_for('static', filename='images/preferred_bg.jpg') }}" as="image">
+    <link rel="preload" href="{{ url_for('static', filename='images/weblogo.ico') }}" as="image">
+    <link rel="preload" href="{{ url_for('static', filename='images/profile.jpg') }}" as="image">
+    <link rel="preload" href="{{ url_for('static', filename='images/wordart.png') }}" as="image">
+
     <!-- CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
@@ -368,7 +374,7 @@
             </div>
         </div>
 
-        <img src="{{ url_for('static', filename='images/endmotif.png') }}" alt="Snowflake" style="width: 7%; height: auto; opacity: 0.6; margin: 3rem auto 0; display: block;">
+        <img src="{{ url_for('static', filename='images/endmotif.png') }}" alt="Snowflake" style="width: 7%; height: auto; opacity: 0.9; margin-top: 9rem; margin-bottom: 3rem; display: block; margin-left: auto; margin-right: auto;">
         
     </section>
 
@@ -418,7 +424,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             var typed = new Typed('#typed-text', {
             strings: [               
-                'Learning by Doing'
+                'Learning by doing.'
             ],
             typeSpeed: window.innerWidth <= 768 ? 60 : 40,  // Slower on mobile   
             backSpeed: window.innerWidth <= 768 ? 600 : 400,  // Slower on mobile      
