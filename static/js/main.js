@@ -1,3 +1,17 @@
+// Throttle function
+function throttle(func, limit) {
+    let inThrottle;
+    return function() {
+        const args = arguments;
+        const context = this;
+        if (!inThrottle) {
+            func.apply(context, args);
+            inThrottle = true;
+            setTimeout(() => inThrottle = false, limit);
+        }
+    }
+}
+
 // Initialize AOS
 AOS.init({
     duration: 800,
@@ -24,20 +38,24 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// Navbar scroll effect
-window.addEventListener('scroll', function() {
+// Navbar and back-to-top button scroll effect
+window.addEventListener('scroll', throttle(function() {
     const navbar = document.querySelector('.navbar');
+    const backToTop = document.querySelector('.back-to-top');
+    
     if (window.scrollY > 50) {
-        navbar.style.background = 'rgba(10, 25, 47, 0.98)'; // More opaque when scrolled
+        navbar.style.background = 'rgba(10, 25, 47, 0.98)';
         navbar.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.3)';
+        if (backToTop) backToTop.style.opacity = '1';
     } else {
-        navbar.style.background = 'rgba(10, 25, 47, 0.1)'; // More transparent at top
+        navbar.style.background = 'rgba(10, 25, 47, 0.1)';
         navbar.style.boxShadow = 'none';
+        if (backToTop) backToTop.style.opacity = '0.5';
     }
-});
+}, 100));
 
 // Active section highlighting
-window.addEventListener('scroll', function() {
+window.addEventListener('scroll', throttle(function() {
     let sections = document.querySelectorAll('section');
     let navLinks = document.querySelectorAll('.nav-link');
     
@@ -56,7 +74,7 @@ window.addEventListener('scroll', function() {
             });
         }
     });
-});
+}, 100));
 
 // Modal handling for projects
 function openProjectModal(title, description, image) {
@@ -394,26 +412,3 @@ const projectDetails = [
 
     modalInstance.show();
 }
-
-// Back to top button functionality
-document.addEventListener('DOMContentLoaded', function() {
-    const backToTopButton = document.getElementById('back-to-top');
-
-    if (backToTopButton) {
-        window.addEventListener('scroll', () => {
-            if (window.pageYOffset > 300) {
-                backToTopButton.classList.add('visible');
-            } else {
-                backToTopButton.classList.remove('visible');
-            }
-        });
-
-        backToTopButton.addEventListener('click', (e) => {
-            e.preventDefault();
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        });
-    }
-});
