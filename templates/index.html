@@ -33,6 +33,7 @@
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/chat.css') }}" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
 </head>
 <body>
@@ -403,6 +404,40 @@
         </div>
     </div>
 
+    <!-- Chat Button and Interface -->
+    <div id="chat-widget" class="chat-widget">
+        <button id="chat-button" class="chat-button" aria-label="Open chat">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M20 10c0-4.4-3.6-8-8-8s-8 3.6-8 8c0 1.6.5 3.1 1.3 4.4L3 21l6.6-2.3c.8.3 1.6.5 2.4.5 4.4 0 8-3.6 8-8z" />
+                <path d="M12 13c-1.7 0-3-1.3-3-3s1.3-3 3-3 3 1.3 3 3-1.3 3-3 3z" />
+                <path d="M15 10h4" />
+                <path d="M7 10h-2" />
+            </svg>
+        </button>
+        <div id="chat-container" class="chat-container hidden">
+            <div class="chat-header">
+                <h3>Chat with Hamma</h3>
+                <button id="close-chat" class="close-chat">×</button>
+            </div>
+            <div id="chat-messages" class="chat-messages">
+                <div class="message bot-message">
+                    👋 Hi there! I'm Hamma, an AI assistant for Iqbal's portfolio website. I can help you discover more about his projects, experience, and skills. Feel free to ask me anything about the site!
+                </div>
+            </div>
+            <div class="chat-input-container">
+                <input type="text" id="chat-input" placeholder="Type your message..." />
+                <button id="send-message">
+                    <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path d="M20 10c0-4.4-3.6-8-8-8s-8 3.6-8 8c0 1.6.5 3.1 1.3 4.4L3 21l6.6-2.3c.8.3 1.6.5 2.4.5 4.4 0 8-3.6 8-8z" />
+                        <path d="M12 13c-1.7 0-3-1.3-3-3s1.3-3 3-3 3 1.3 3 3-1.3 3-3 3z" />
+                        <path d="M15 10h4" />
+                        <path d="M7 10h-2" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
     <a href="#home" id="back-to-top" class="back-to-top" aria-label="Back to top">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-up"><polyline points="18 15 12 9 6 15"></polyline></svg>
     </a>
@@ -414,6 +449,7 @@
     <!-- Custom JavaScript Files -->
     <script src="{{ url_for('static', filename='js/particles-config.js') }}"></script>
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/chat.js') }}"></script>
 
     <!-- Typed.js Configuration -->
     <script>
