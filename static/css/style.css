@@ -1,568 +1,1264 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Open Graph / Social Media Preview -->
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="Akuane">
-    <meta property="og:description" content="My portfolio website">
-    <meta property="og:image" content="https://aquane.replit.app/static/images/webprev.jpg">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta property="og:url" content="https://aquane.replit.app">
+:root {
+    --primary-color: #003366;
+    --secondary-color: #00ccff;
+    --text-color: #e0f7ff;
+    --light-text: #ffffff;
+    --bg-color: #001830;
+    --heading-font: 'Montserrat', sans-serif;
+    --body-font: 'Open Sans', sans-serif;
+}
 
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Akuane">
-    <meta name="twitter:description" content="My portfolio website">
-    <meta name="twitter:image" content="https://aquane.replit.app/static/images/webprev.jpg">
+@keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0; }
+    100% { opacity: 1; }
+}
 
-    <link rel="shortcut icon" href="{{ url_for('static', filename='images/weblogo.ico') }}">
-    <link rel="icon" href="{{ url_for('static', filename='images/weblogo.ico') }}" type="image/x-icon">
-    <title>Akuane</title>
+.typed-cursor {
+    animation: blink 2s infinite;
+}
 
-    <!-- Critical CSS -->
-    <style>
-        /* Critical styles for above-the-fold content */
-        :root {
-            --primary-color: #003366;
-            --secondary-color: #00ccff;
-            --text-color: #e0f7ff;
-            --light-text: #ffffff;
-            --bg-color: #001830;
-            --heading-font: 'Montserrat', sans-serif;
-            --body-font: 'Open Sans', sans-serif;
+.typed-fade-out {
+    opacity: 0;
+    transition: opacity 0.25s;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--body-font);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6, 
+.navbar-brand,
+.section-title {
+    font-family: var(--heading-font);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+}
+
+.degree, .position {
+    font-family: var(--heading-font);
+    font-weight: 500;
+}
+
+/* Navigation */
+.navbar.navbar-expand-lg {
+    padding: 1rem 0;
+    transition: all 0.3s ease;
+    background: rgba(10, 25, 47, 0.1);
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+}
+
+.navbar .container {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1rem;
+}
+
+.nav-menu-container {
+    position: relative;
+    margin-left: auto;
+}
+
+.navbar-nav {
+    display: flex;
+    align-items: center;
+}
+
+.nav-item.dropdown {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.hamburger-menu {
+    width: 30px;
+    height: 24px;
+    position: relative;
+    cursor: pointer;
+    z-index: 1001;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.hamburger-line {
+    width: 100%;
+    height: 2px;
+    background-color: var(--light-text);
+    position: absolute;
+    left: 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.line-1 { top: 0; }
+.line-2 { top: 50%; transform: translateY(-50%); }
+.line-3 { bottom: 0; }
+
+.nav-menu-container .dropdown-menu {
+    position: absolute;
+    top: calc(100% + 25px);
+    right: -25px;
+    background: rgba(10, 25, 47, 0.95);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 0.75rem 0;
+    min-width: 200px;
+    display: none;
+    transform-origin: top right;
+    z-index: 999;
+}
+
+.nav-menu-container .dropdown-menu.show {
+    display: block;
+    animation: slideInMenu 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.dropdown-item {
+    color: var(--light-text);
+    padding: 0.5rem 1.5rem;
+    transition: all 0.2s ease;
+    display: block;
+    text-decoration: none;
+}
+
+.dropdown-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--secondary-color);
+}
+
+@keyframes slideInMenu {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 991px) {
+    .nav-menu-container .dropdown-menu {
+        position: fixed;
+        top: 4rem;
+        right: 0;
+        width: 250px;
+        border-radius: 0 0 0 10px;
+        margin-top: 0;
+    }
+}
+
+#nav-particles {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+.navbar-brand {
+    padding: 0;
+    display: flex;
+    align-items: center;
+}
+
+.navbar-brand img {
+    height: 100px;  /* Adjust this value to match your desired logo height */
+    width: auto;
+    transition: all 0.3s ease;
+    filter: brightness(1);  /* Makes sure the transparent PNG is visible */
+}
+
+@media (max-width: 768px) {
+    .navbar-brand img {
+        height: 50px;
+        margin: 0;
+        position: static;
+    }
+}
+
+.navbar-brand:hover img {
+    transform: scale(1.02);  /* Slight grow effect on hover */
+    filter: brightness(1.1);  /* Slight brightness increase on hover */
+}
+
+.nav-link {
+    color: var(--light-text) !important;
+    margin: 0 1rem;
+    transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+    color: var(--secondary-color) !important;
+}
+
+/* Hero Section */
+#particles-js {
+    position: absolute;
+    width: 100%;
+    min-height: 100vh;
+    overflow: hidden;
+    z-index: 0;
+}
+
+#particles-js::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    background: 
+        linear-gradient(0deg, 
+            rgba(0, 24, 48, 0.9) 0%,
+            rgba(0, 51, 102, 0.5) 50%,
+            rgba(0, 153, 255, 0.3) 100%
+        ),
+        url('/static/images/preferred_bg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: -2;
+    animation: wave 8s ease-in-out infinite;
+    image-rendering: -webkit-optimize-contrast;  /* Improve image sharpness */
+    image-rendering: crisp-edges;  /* Improve image sharpness for other browsers */
+}
+
+/* Add overlay gradient */
+#particles-js::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    background: linear-gradient(0deg,
+        rgba(0, 24, 48, 0.95) 0%,
+        rgba(0, 51, 102, 0.7) 40%,
+        rgba(0, 153, 255, 0.4) 100%
+    );
+    z-index: 0;
+    pointer-events: none;
+}
+
+.water-surface {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 200px;
+    background: linear-gradient(0deg,
+        rgba(0, 153, 255, 0.2) 0%,
+        rgba(0, 204, 255, 0.4) 50%,
+        rgba(255, 255, 255, 0.6) 100%
+    );
+    transform-origin: center top;
+    animation: waterWave 9s ease-in-out infinite;
+    pointer-events: none;
+}
+
+@keyframes waterWave {
+    0%, 100% {
+        transform: perspective(500px) rotateX(0deg) translateY(-20px);
+        opacity: 0.8;
+    }
+    50% {
+        transform: perspective(500px) rotateX(15deg) translateY(0);
+        opacity: 0.6;
+    }
+}
+
+@keyframes wave {
+    0%, 100% { transform: translateY(-5px); }
+    50% { transform: translateY(5px); }
+}
+
+.hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;  /* Prevent content from spilling */
+    padding: 2rem 0;   /* Add some padding */
+}
+
+.hero-content {
+    z-index: 2;  /* Increased z-index to appear above particles */
+    color: var(--light-text);
+    padding: 2rem;
+    position: relative;  /* Ensure z-index works */
+}
+
+.hero h1 {
+    font-size: 4rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.profile-image-container {
+    width: 300px;
+    height: 300px;
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 204, 255, 0.3);
+}
+
+.profile-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.section-icon {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+.water-scroll-indicator {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 60px;
+    z-index: 2;
+}
+
+.bubbles {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.bubble {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 50%;
+    animation: rise 2s infinite;
+}
+
+.bubble:nth-child(1) {
+    width: 8px;
+    height: 8px;
+    left: 20%;
+    animation-delay: 0s;
+}
+
+.bubble:nth-child(2) {
+    width: 12px;
+    height: 12px;
+    left: 50%;
+    animation-delay: 0.5s;
+}
+
+.bubble:nth-child(3) {
+    width: 6px;
+    height: 6px;
+    left: 80%;
+    animation-delay: 1s;
+}
+
+@keyframes rise {
+    0% {
+        bottom: -20px;
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        bottom: 60px;
+        opacity: 0;
+    }
+}
+
+.wave {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 20px;
+    background: linear-gradient(to bottom, 
+        rgba(0, 204, 255, 0.2) 0%,
+        rgba(0, 204, 255, 0) 100%
+    );
+    animation: wave 2s ease-in-out infinite;
+}
+
+@keyframes wave {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* Skills Section */
+.skill-card {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin: 1rem 0;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+/* Education Section */
+.education-card {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    transition: transform 0.3s ease;
+}
+
+.education-card:hover {
+    transform: translateY(-5px);
+}
+
+.education-card h3 {
+    color: var(--light-text);
+    margin-bottom: 0.5rem;
+}
+
+.education-card .degree {
+    color: #64ffda;
+    font-size: 1.1rem;
+    margin-bottom: 0.25rem;
+}
+
+.education-card .year {
+    color: #8892b0;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+.education-details {
+    color: #a8b2d1;
+}
+
+/* Experience Section */
+.experience-card {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+.experience-item {
+    margin-bottom: 1.5rem;
+    padding-left: 1rem;
+    border-left: 2px solid #64ffda;
+}
+
+.experience-item h4 {
+    color: var(--light-text);
+    margin-bottom: 0.5rem;
+    font-size: 1.2rem;
+}
+
+.experience-item .position {
+    color: #64ffda;
+    font-size: 1rem;
+    margin-bottom: 0.25rem;
+}
+
+.experience-item .location {
+    color: #8892b0;
+    font-size: 0.9rem;
+}
+
+.experience-card h3 {
+    color: var(--light-text);
+    margin-bottom: 1.5rem;
+}
+
+.skill-card, .education-card, .experience-card, .cv-card {
+    transition: all 0.3s ease-in-out, background-color 0.5s ease;
+}
+
+.skill-card:hover, .education-card:hover, 
+.experience-card:hover, .cv-card:hover {
+    transform: translateY(-5px);
+    background: rgba(0, 204, 255, 0.15);
+    box-shadow: 0 0 20px rgba(0, 204, 255, 0.1);
+}
+
+/* Portfolio Section */
+.project-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    margin-bottom: 2rem;
+}
+
+.project-card img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+}
+
+.project-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(10, 25, 47, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.project-card:hover .project-overlay {
+    opacity: 1;
+}
+
+/* CV Section */
+.cv-card {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    padding: 2rem;
+    margin: 1rem 0;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.cv-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Scroll Snap and Section Styles */
+html {
+    overflow-x: hidden;
+}
+
+body {
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+/* Section layout and scroll snap behavior */
+section {
+    padding: 8rem 0 6rem;  /* Increased top padding to prevent header overlap */
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* Ocean Depth Gradient */
+section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to bottom, 
+        rgba(0, 0, 0, 0),
+        rgba(0, 0, 0, 0.1)
+    );
+    pointer-events: none;
+    z-index: -1;
+}
+
+#education::before { background: linear-gradient(180deg, rgba(10, 25, 47, 0) 0%, rgba(10, 25, 47, 0.1) 100%); }
+#skills::before { background: linear-gradient(180deg, rgba(10, 25, 47, 0.1) 0%, rgba(10, 25, 47, 0.2) 100%); }
+#ai-tools::before { background: linear-gradient(180deg, rgba(10, 25, 47, 0.2) 0%, rgba(10, 25, 47, 0.3) 100%); }
+#experience::before { background: linear-gradient(180deg, rgba(10, 25, 47, 0.3) 0%, rgba(10, 25, 47, 0.4) 100%); }
+#featured-projects::before { background: linear-gradient(180deg, rgba(10, 25, 47, 0.4) 0%, rgba(10, 25, 47, 0.5) 100%); }
+#awards::before { background: linear-gradient(180deg, rgba(10, 25, 47, 0.5) 0%, rgba(10, 25, 47, 0.6) 100%); }
+#cv::before { background: linear-gradient(180deg, rgba(10, 25, 47, 0.6) 0%, rgba(10, 25, 47, 0.7) 100%); }
+
+/* Section titles styling and positioning */
+section .section-title {
+    margin-bottom: 3rem;  /* Consistent spacing below titles */
+    position: relative;
+    z-index: 2;
+    color: var(--light-text);
+    text-align: center;
+}
+
+/* Ensure content is centered within sections */
+section .container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+}
+
+.section-title {
+    color: var(--light-text);
+    margin-bottom: 2rem;
+    margin-top: 4rem;  /* Added to push content below header bar */
+    text-align: center;
+}
+
+/* Ocean Depth Gradient */
+section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to bottom, 
+        rgba(0, 0, 0, 0),
+        rgba(0, 0, 0, 0.1)
+    );
+    pointer-events: none;
+    z-index: -1;
+}
+
+#education::before { background: linear-gradient(180deg, rgba(10, 25, 47, 0) 0%, rgba(10, 25, 47, 0.1) 100%); }
+#skills::before { background: linear-gradient(180deg, rgba(10, 25, 47, 0.1) 0%, rgba(10, 25, 47, 0.2) 100%); }
+#ai-tools::before { background: linear-gradient(180deg, rgba(10, 25, 47, 0.2) 0%, rgba(10, 25, 47, 0.3) 100%); }
+#experience::before { background: linear-gradient(180deg, rgba(10, 25, 47, 0.3) 0%, rgba(10, 25, 47, 0.4) 100%); }
+#projects::before { background: linear-gradient(180deg, rgba(10, 25, 47, 0.4) 0%, rgba(10, 25, 47, 0.5) 100%); }
+#awards::before { background: linear-gradient(180deg, rgba(10, 25, 47, 0.5) 0%, rgba(10, 25, 47, 0.6) 100%); }
+#cv::before { background: linear-gradient(180deg, rgba(10, 25, 47, 0.6) 0%, rgba(10, 25, 47, 0.7) 100%); }
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    /* Disable scroll snap on mobile */
+    html {
+        scroll-snap-type: none;
+    }
+
+    /* Adjust hero section for mobile */
+    .hero h1 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .hero-content {
+        text-align: center;
+        padding: 1rem;
+    }
+
+    /* Adjust section padding for mobile */
+    section {
+        padding: 4rem 1rem 2rem;
+        height: auto;
+        min-height: auto;
+        scroll-snap-align: none;
+    }
+
+    @media (max-width: 768px) {
+        /* Fix card layouts for mobile */
+        .skill-card, .education-card, .experience-card {
+            margin: 0.6rem 0;  /* Reduced from 1rem to 0.6rem */
+            padding: 1.2rem;
         }
 
-        body {
-            font-family: var(--body-font);
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            line-height: 1.6;
-            margin: 0;
-            padding: 0;
+        /* Also fix row spacing */
+        .row > [class*='col-'] {
+            margin-bottom: 0.6rem;  /* Reduced from 1rem to 0.6rem */
         }
+    }
 
-        .navbar {
-            background-color: rgba(10, 25, 47, 0.95);
-            padding: 0;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 10000;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(5px);
-            height: 4rem;
-            display: flex;
-            align-items: center;
-        }
+    /* Adjust grid layout for mobile */
+    .row > [class*='col-'] {
+        margin-bottom: 1rem;
+    }
 
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            position: relative;
-            overflow: hidden;
-            padding: 2rem 0;
-        }
-    </style>
+    /* Improve text spacing and readability */
+    .education-card h3,
+    .experience-card h3,
+    .skill-card h3 {
+        font-size: 1.4rem;
+        margin-bottom: 0.8rem;
+    }
 
-    <!-- Preload critical fonts -->
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap"></noscript>
+    .education-card .degree,
+    .experience-card .position {
+        font-size: 1rem;
+        margin-bottom: 0.5rem;
+    }
 
-    <!-- Preload critical images -->
-    <link rel="preload" href="{{ url_for('static', filename='images/preferred_bg.jpg') }}" as="image">
-    <link rel="preload" href="{{ url_for('static', filename='images/weblogo.ico') }}" as="image">
-    <link rel="preload" href="{{ url_for('static', filename='images/profile.jpg') }}" as="image">
+    .education-card .year,
+    .experience-card .location {
+        font-size: 0.9rem;
+        margin-bottom: 0.8rem;
+    }
 
-    <!-- Defer non-critical CSS -->
-    <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <link rel="preload" href="https://unpkg.com/aos@2.3.1/dist/aos.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <link rel="preload" href="{{ url_for('static', filename='css/style.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <link rel="preload" href="{{ url_for('static', filename='css/chat.css') }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    /* Adjust project carousel for mobile */
+    .project-carousel {
+        padding: 0 20px;
+        height: auto;
+    }
 
-    <!-- Fallback for CSS loading -->
-    <noscript>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
-        <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/chat.css') }}">
-    </noscript>
+    .carousel-button {
+        width: 36px;
+        height: 36px;
+    }
 
-    <!-- Critical preloads -->
-    <link rel="preload" href="{{ url_for('static', filename='images/wordart.png') }}" as="image">
+    /* Improve navigation for mobile */
+    .navbar {
+        padding: 0.5rem 0;
+    }
 
-    <!-- CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
-    <link href="{{ url_for('static', filename='css/chat.css') }}" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
-</head>
-<body>
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
-        <div class="container">
-            <a class="navbar-brand" href="#home"><img src="{{ url_for('static', filename='images/wordart.png') }}" alt="Akuane"></a>
-            <div class="nav-menu-container">
-                <div class="hamburger-menu" id="hamburger-icon">
-                    <div class="hamburger-line line-1"></div>
-                    <div class="hamburger-line line-2"></div>
-                    <div class="hamburger-line line-3"></div>
-                </div>
-                <ul class="dropdown-menu dropdown-menu-dark">
-                    <li><a class="dropdown-item" href="#home">Home</a></li>
-                    <li><a class="dropdown-item" href="#featured-projects">Featured Projects</a></li>
-                    <li><a class="dropdown-item" href="#education">Education</a></li>
-                    <li><a class="dropdown-item" href="#skills">Skills</a></li>
-                    <li><a class="dropdown-item" href="#experience">Experience</a></li>
-                    <li><a class="dropdown-item" href="#awards">Awards</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+    .navbar-brand {
+        font-size: 1.2rem;
+    }
 
-    <!-- Hero Section -->
-    <section id="home" class="hero">
-        <div id="particles-js"></div>
-        <div class="container">
-            <div class="hero-content" data-aos="fade-up">
-                <div class="row align-items-center">
-                    <div class="col-md-6">
-                        <h1>Iqbal</h1>
-                        <p class="lead"><span id="typed-text"></span></p>
-                        <div class="social-icons">
-                            <a href="https://www.linkedin.com/in/kmmtt/" target="_blank" class="social-icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-linkedin"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
-                            </a>
-                            <a href="https://github.com/Aghbuul" target="_blank" class="social-icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="profile-image-container">
-                            <img src="{{ url_for('static', filename='images/profile.jpg') }}" alt="Profile" class="profile-image">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    /* Adjust profile image container for mobile */
+    .profile-image-container {
+        width: 200px;
+        height: 200px;
+        margin: 1rem auto;
+    }
+}
 
-    <!-- Projects Section -->
-    <section id="featured-projects" class="py-5">
-        <div id="projects-particles" class="particles-background"></div>
-        <div class="container">
-            <h2 class="section-title" data-aos="fade-up">Featured Projects</h2>
+.particles-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+}
 
-            <div id="projectCarousel" class="carousel slide" data-bs-ride="carousel">
-                <!-- Indicators -->
-                <div class="carousel-indicators">
+#skills {
+    position: relative;
+    padding-top: 6rem;
+    display: flex;
+    align-items: center;
+}
 
-                    <button type="button" data-bs-target="#projectCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                    <button type="button" data-bs-target="#projectCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                    <button type="button" data-bs-target="#projectCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
-                    <button type="button" data-bs-target="#projectCarousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
-                    <button type="button" data-bs-target="#projectCarousel" data-bs-slide-to="4" aria-label="Slide 5"></button>
+#skills .container {
+    position: relative;
+    z-index: 2;
+}
 
-                </div>
+#skills-particles {
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
 
-                <!-- Carousel items -->
-                <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <div class="project-card" onclick="showProjectDetails(0)">
-                            <img src="/static/images/CarouselPreview1.jpg" alt="Portfolio Website" loading="lazy">
-                            <div class="content">
-                                <h3>Portfolio Website</h3>
-                                <p>An interactive personal portfolio website with an underwater theme, built from scratch using Replit and Claude.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="carousel-item">
-                        <div class="project-card" onclick="showProjectDetails(1)">
-                            <img src="/static/images/CarouselPreview2.jpg" alt="Disease Modelling App" loading="lazy">
-                            <div class="content">
-                                <h3>Disease Modelling App</h3>
-                                <p>Interactive epidemiological modeling application built with R Shiny demonstrating SEIR model dynamics.</p>
-                            </div>
-                        </div>
-                    </div>
+.project-carousel {
+    position: relative;
+    max-width: 900px;
+    height: 500px;
+    margin: 1rem auto;
+    padding: 0 70px;
+    overflow: hidden;
+}
 
-                    <div class="carousel-item">
-                        <div class="project-card" onclick="showProjectDetails(2)">
-                            <img src="/static/images/CarouselPreview4.jpg" alt="Pixel Art Generator" loading="lazy">
-                            <div class="content">
-                                <h3>Pixel Art Generator</h3>
-                                <p>Web-based pixel art animation tool built with JavaScript and HTML5 Canvas, featuring real-time image processing and video export capabilities.</p>
-                            </div>
-                        </div>
-                    </div>
+.carousel-inner {
+    position: relative;
+    height: 100%;
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
 
-                    <div class="carousel-item">
-                        <div class="project-card" onclick="showProjectDetails(3)">
-                            <img src="/static/images/CarouselPreview5.jpg" alt="AI-Powered Eye Sigil Generator" loading="lazy">
-                            <div class="content">
-                                <h3>Anime Sigil Eyes</h3>
-                                <p>An app leveraging machine learning to detect eyes in photographs and overlay customisable anime sigils onto them.</p>
-                            </div>
-                        </div>
-                    </div>
+.carousel-slide {
+    min-width: 100%;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+    display: none;
+}
 
-                    <div class="carousel-item">
-                        <div class="project-card" onclick="showProjectDetails(4)">
-                            <img src="/static/images/CarouselPreview3.jpg" alt="Project Directory" loading="lazy">
-                            <div class="content">
-                                <h3>Project Directory</h3>
-                                <p>A complete catalogue of all my projects with detailed descriptions. Click to explore the full collection.</p>
-                            </div>
-                        </div>
-                    </div>
+.carousel-slide.active {
+    opacity: 1;
+    display: block;
+}
 
+.carousel-item {
+    padding: 2rem;
+}
 
-                </div>
+.project-card {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    aspect-ratio: 4/2.2;  /* Maintains consistent proportions */
+    width: 100%;        /* Takes full width of container */
+    max-width: 700px;   /* Caps maximum width */
+    margin: 0 auto;
+    overflow: hidden;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+}
 
-                <!-- Controls -->
-                <button class="carousel-control-prev" type="button" data-bs-target="#projectCarousel" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#projectCarousel" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                </button>
-            </div>
-        </div>
-    </section>
+.project-card img {
+    width: 100%;
+    height: 55%;      /* Takes up 55% of card height */
+    object-fit: cover;
+    flex-shrink: 0;
+}
 
-    <!-- Education Section -->
-    <section id="education" class="py-5">
-        <div id="education-particles" class="particles-background"></div>
-        <div class="container">
-            <h2 class="section-title" data-aos="fade-up">
-                Education
-            </h2>
-            <div class="row">
-                <div class="col-md-6" data-aos="fade-up" data-aos-delay="100">
-                    <div class="education-card">
-                        <h3>University of Oxford</h3>
-                        <p class="degree">MSc Modelling for Global Health</p>
-                        <p class="year">2024-2025</p>
-                        <div class="education-details">
-                            <p>Applied mathematical modelling in the context of epidemiology, economics, and policy.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6" data-aos="fade-up" data-aos-delay="200">
-                    <div class="education-card">
-                        <h3>University College London</h3>
-                        <p class="degree">BSc Human Genetics</p>
-                        <p class="year">2017-2020</p>
-                        <div class="education-details">
-                            <p>Foundation in computational biology, ageing, and evolutionary genetics.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+.project-card .content {
+    height: 45%;      /* Takes remaining space */
+    padding: 1rem;
+    overflow-y: auto;
+    text-align: center;
+}
 
+/* Mobile adjustments */
+@media (max-width: 768px) {
+    .project-card {
+        aspect-ratio: 3/5;
+    }
 
-    <!-- Skills Section -->
-    <section id="skills" class="py-5">
-        <div id="skills-particles" class="particles-background"></div>
-        <div class="container">
-            <h2 class="section-title" data-aos="fade-up">
-                Skills
-            </h2>
-            <div class="row">
-                <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
-                    <!-- Popup temporarily disabled -->
-                    <div class="skill-card">
-                        <h3>Programming</h3>
-                        <p>Building web apps and tools with Python, JavaScript and HTML/CSS.</p>
-                    </div>
-                </div>
-                <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
-                    <div class="skill-card">
-                        <h3>Tool Building</h3>
-                        <p>Highly custom web tools and scripts for specialised workflows.</p>
-                    </div>
-                </div>
-                <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
-                    <div class="skill-card">
-                        <h3>Statistics</h3>
-                        <p>R for data analysis, mathematical modelling, and hypothesis testing.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
-                    <div class="skill-card">
-                        <h3>Bioinformatics</h3>
-                        <p>Genomic annotation tools (eg. UCSC Genome Browser, DAVID).</p>
-                    </div>
-                </div>
-                <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
-                    <div class="skill-card">
-                        <h3>Teaching</h3>
-                        <p>Teaching experience in pre-univesity science classes.</p>
-                    </div>
-                </div>
-                <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
-                    <div class="skill-card">
-                        <h3>Languages</h3>
-                        <p>Fluent in Burmese and English; rudimentary Japanese.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    .project-card img {
+        height: 45%;
+    }
 
-    <!-- AI Tools Section -->
-    <section id="ai-tools" class="py-5">
-        <div id="aitools-particles" class="particles-background"></div>
-        <div class="container">
-            <h2 class="section-title" data-aos="fade-up">
-                AI Tools
-            </h2>
-            <div class="row">
-                <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
-                    <div class="skill-card">
-                        <h3>LLMs</h3>
-                        <p>Highly familiar with using and personalising popular LLMs.</p>
-                    </div>
-                </div>
-                <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
-                    <div class="skill-card">
-                        <h3>Replit Agent</h3>
-                        <p>Coding, version control and hosting demos using Replit's IDE.</p>
-                    </div>
-                </div>
-                <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
-                    <div class="skill-card">
-                        <h3>Other AI tools I like:</h3>
-                        <p>Consensus.ai, Perplexity.ai, Stable Diffusion, Midjourney & Otter.ai</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    .project-card .content {
+        height: 55%;
+        font-size: 0.8em;  /* 20% smaller text */
+    }
+    
+    .social-icons {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        margin-top: 1rem;
+    }
 
-    <!-- Experience Section -->
-    <section id="experience" class="py-5">
-        <div id="experience-particles" class="particles-background"></div>
-        <div class="container">
-            <h2 class="section-title" data-aos="fade-up">
-                Experience
-            </h2>
-            <div class="row">
-                <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
-                    <div class="experience-card">
-                        <h3>Research</h3>
-                        <div class="experience-item">
-                            <h4>UCL</h4>
-                            <p class="position">BSc Dissertation Research</p>
-                            <p class="location">Institute of Healthy Ageing</p>
-                        </div>
-                        <div class="experience-item">
-                            <h4>UCL</h4>
-                            <p class="position">Lab Intern</p>
-                            <p class="location">Department of Genetics</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
-                    <div class="experience-card">
-                        <h3>Entrepreneurship</h3>
-                        <div class="experience-item">
-                            <h4>Instinct Myanmar</h4>
-                            <p class="position">Founder</p>
-                            <p class="location">For the sake of practical experience, I built and operated an import business in Yangon. As a solo founder, I conducted market analysis and negotiations with suppliers, and personally handled customer service, advertising and logistics.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
-                    <div class="experience-card">
-                        <h3>Teaching</h3>
-                        <div class="experience-item">
-                            <h4>Kings Yangon</h4>
-                            <p class="position">Biology & Chemistry Teacher</p>
-                            <p class="location">Yangon, Myanmar</p>
-                        </div>
-                        <div class="experience-item">
-                            <h4>Acumen Intl College</h4>
-                            <p class="position">Chemistry Teacher</p>
-                            <p class="location">Yangon, Myanmar</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    .social-icons a {
+        margin: 0 0rem;
+    }
+}
 
-    <!-- Awards Section -->
-    <section id="awards" class="py-5">
-        <div id="awards-particles" class="particles-background"></div>
-        <div class="container">
-            <h2 class="section-title" data-aos="fade-up">
-                Awards
-            </h2>
-            <div class="row">
-                <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
-                    <div class="skill-card">
-                        <h3>Bronze Medal</h3>
-                        <p>11th International Junior Science Olympiad (2014, Argentina)</p>
-                    </div>
-                </div>
-                <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
-                    <div class="skill-card">
-                        <h3>Gold Medal</h3>
-                        <p>Golden Climate International Olympiad (2014, Kenya)</p>
-                    </div>
-                </div>
-                <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
-                    <div class="skill-card">
-                        <h3>Bronze Medal</h3>
-                        <p>International Environmental Project Olympiad (2013, Turkey)</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+.carousel-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 44px;
+    height: 44px;
+    background: rgba(128, 128, 128, 0.3);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: white;
+    font-size: 20px;
+    z-index: 10;
+}
 
-        <img src="{{ url_for('static', filename='images/endmotif.png') }}" alt="Snowflake" loading="lazy" style="width: 7%; height: auto; opacity: 0.9; margin-top: 9rem; margin-bottom: 3rem; display: block; margin-left: auto; margin-right: auto;">
+.carousel-button:hover {
+    background: rgba(128, 128, 128, 0.5);
+}
 
-    </section>
+.carousel-button.prev {
+    left: 10px;
+}
 
-    <!-- Project Details Modal -->
-    <div class="modal fade" id="projectModal" tabindex="-1">
-        <div class="modal-dialog modal-xl">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title"></h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="project-detail-image"></div>
-                    <div class="project-detail-content"></div>
-                </div>
-            </div>
-        </div>
-    </div>
+.carousel-button.next {
+    right: 10px;
+}
 
-    <!-- Skills Details Modal -->
-    <div class="modal fade" id="skillModal" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title"></h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body"></div>
-            </div>
-        </div>
-    </div>
+.carousel-indicators {
+    position: absolute; /* Move indicators inside the box */
+    bottom: 20px; /* Adjust position to be inside the project-card box */
 
-    <!-- Chat Button and Interface -->
-    <div id="chat-widget" class="chat-widget">
-        <button id="chat-button" class="chat-button" aria-label="Open chat">
-            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5">
-                <path d="M20 10c0-4.4-3.6-8-8-8s-8 3.6-8 8c0 1.6.5 3.1 1.3 4.4L3 21l6.6-2.3c.8.3 1.6.5 2.4.5 4.4 0 8-3.6 8-8z" />
-                <path d="M12 13c-1.7 0-3-1.3-3-3s1.3-3 3-3 3 1.3 3 3-1.3 3-3 3z" />
-                <path d="M15 10h4" />
-                <path d="M7 10h-2" />
-            </svg>
-        </button>
-        <div id="chat-container" class="chat-container hidden">
-            <div class="chat-header">
-                <h3>Chat with Hamma</h3>
-                <button id="close-chat" class="close-chat">×</button>
-            </div>
-            <div id="chat-messages" class="chat-messages">
-                <div class="message bot-message">
-                    👋 Hi there! I'm Hamma, an AI assistant for Iqbal's portfolio website. I can help you discover more about his projects, experience, and skills. Feel free to ask me anything about the site!
-                </div>
-            </div>
-            <div class="chat-input-container">
-                <input type="text" id="chat-input" placeholder="Type your message..." />
-                <button id="send-message">
-                    <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5">
-                        <path d="M20 10c0-4.4-3.6-8-8-8s-8 3.6-8 8c0 1.6.5 3.1 1.3 4.4L3 21l6.6-2.3c.8.3 1.6.5 2.4.5 4.4 0 8-3.6 8-8z" />
-                        <path d="M12 13c-1.7 0-3-1.3-3-3s1.3-3 3-3 3 1.3 3 3-1.3 3-3 3z" />
-                        <path d="M15 10h4" />
-                        <path d="M7 10h-2" />
-                    </svg>
-                </button>
-            </div>
-        </div>
-    </div>
+    display: flex;
+    gap: 0.5rem;
+}
 
-    <a href="#home" id="back-to-top" class="back-to-top" aria-label="Back to top">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-up"><polyline points="18 15 12 9 6 15"></polyline></svg>
-    </a>
+.carousel-indicators button {
+    background-color: rgba(255, 255, 255, 0.5);
+    width: 30px; /* Made more rectangular */
+    height: 8px; /* Reduced height */
+    border-radius: 4px; /* Slight rounding for a pill-like shape */
+    margin: 0 5px;
+    border: none; /* Remove borders */
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
 
-    <!-- Required JavaScript Libraries -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-    <!-- Custom JavaScript Files -->
-    <script src="{{ url_for('static', filename='js/particles-config.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/chat.js') }}"></script>
+.carousel-indicators button.active {
+    background-color: rgba(0, 204, 255, 0.8);
+}
 
-    <!-- Typed.js Configuration -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var typed = new Typed('#typed-text', {
-            strings: [               
-                'Learning by doing.'
-            ],
-            typeSpeed: window.innerWidth <= 768 ? 60 : 40,  // Slower on mobile   
-            backSpeed: window.innerWidth <= 768 ? 600 : 400,  // Slower on mobile      
-            backDelay: 20000,        
-            startDelay: 2000,       
-            loop: true,
-                showCursor: true,
-                cursorChar: '|',
-                cursorBlinking: true,   // Enable cursor blinking
-                smartBackspace: true,   // Optimize backspacing
-                fadeOut: true,          // Smooth transitions
-                fadeOutClass: 'typed-fade-out',
-                fadeOutDelay: 500
-            });
-        });
-    </script>
+.carousel-dots {
+    position: absolute;
+    bottom: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 0.5rem;
+}
 
-    <!-- Particle.js Initialization -->
-    <script>
-        window.addEventListener('load', function() {
-            const particleContainers = [
-                'particles-js',
-                'education-particles',
-                'projects-particles',
-                'skills-particles',
-                'aitools-particles',
-                'experience-particles',
-                'awards-particles'
-            ];
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
 
-            setTimeout(() => {
-                particleContainers.forEach(containerId => {
-                    const container = document.getElementById(containerId);
-                    if (container) {
-                        configureParticles(containerId, containerId !== 'particles-js');
-                    }
-                });
-            }, 100);
-        });
-    </script>
+.dot.active {
+    background: rgba(0, 204, 255, 0.8);
+}
 
-    <!-- React Development Dependencies -->
-    <script src="https://unpkg.com/react@18/umd/react.development.min.js"></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.min.js"></script>
+/* Ripple Effect */
+.skill-card, .education-card, .experience-card, .cv-card {
+    position: relative;
+    overflow: hidden;
+}
 
-</body>
-</html>
+.skill-card, .education-card, .experience-card, .cv-card {
+    position: relative; 
+    z-index: 1;         
+    transition: all 0.3s ease-in-out, background-color 0.5s ease;
+}
+
+.skill-card::before,
+.education-card::before,
+.experience-card::before,
+.awards-card::before {
+    content: '';
+    position: absolute;
+    top: -10%;
+    left: -10%;
+    right: -10%;
+    bottom: -10%;
+    background-size: cover;
+    background-position: center;
+    opacity: 0.01;
+    transition: all 0.3s ease-in-out;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.skill-card::before {
+    background-image: url('/static/images/aqua-frame1.png');
+}
+
+.education-card::before {
+    background-image: url('/static/images/aqua-frame1.png');
+}
+
+.experience-card::before {
+    background-image: url('/static/images/aqua-frame5.png');
+}
+
+/* Add hover states */
+.skill-card:hover::before,
+.education-card:hover::before,
+.experience-card:hover::before,
+.awards-card:hover::before {
+    opacity: 0.07;
+    transform: translateY(-5px);
+}
+
+/* Keep your existing hover styles */
+.skill-card:hover, .education-card:hover, 
+.experience-card:hover, .cv-card:hover {
+    transform: translateY(-5px);
+    background: rgba(0, 204, 255, 0.15);
+    box-shadow: 0 0 20px rgba(0, 204, 255, 0.1);
+}
+
+.project-detail-image {
+    margin-bottom: 2rem;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.modal-header-image {
+    width: 100%;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.project-detail-content {
+    color: var(--text-color);
+}
+
+.project-detail-content h3 {
+    color: var(--secondary-color);
+    margin-bottom: 1.5rem;
+}
+
+.project-detail-content h4 {
+    color: var(--light-text);
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+.project-detail-content ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.project-detail-content ul li {
+    padding-left: 1.5rem;
+    position: relative;
+    margin-bottom: 0.5rem;
+}
+
+.project-detail-content ul li:before {
+    content: "•";
+    color: var(--secondary-color);
+    position: absolute;
+    left: 0;
+}
+
+/* Modal Styles */
+.modal {
+    overflow-y: auto;
+}
+
+.modal-content {
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+.modal-header {
+    position: sticky;
+    top: 0;
+    background-color: var(--bg-color);
+    z-index: 1050;
+    padding: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.modal-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1rem;
+    margin-right: 2px;
+}
+
+.modal-footer {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.modal-dialog {
+    margin: 2rem auto;
+    margin-top: 80px;
+}
+
+.modal-open {
+    overflow: hidden;
+    padding-right: 0 !important;
+}
+
+.btn-close {
+    filter: invert(1);
+}
+
+body.modal-open .container-fluid {
+    filter: blur(3px);
+    pointer-events: none;
+}
+
+.modal.fade .modal-dialog {
+    transform: translate(0, -30px);
+}
+
+.modal.show .modal-dialog {
+    transform: none;
+}
+
+body.modal-open .navbar {
+    display: none;
+}
+
+.social-icons {
+    margin-top: 1rem;
+    display: flex;
+    gap: 1rem;
+}
+
+.social-icon {
+    color: var(--light-text);
+    transition: color 0.3s ease;
+}
+
+.social-icon:hover {
+    color: var(--secondary-color);
+}
+
+.back-to-top {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: url('../images/diver.png') center center no-repeat;
+    background-size: contain;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+    opacity: 0.5;
+    z-index: 1000;
+}
+
+.back-to-top:hover {
+    transform: scale(1.1);
+    filter: brightness(1.1);
+    box-shadow: 0 6px 20px rgba(0, 86, 179, 0.4);
+}
+
+.back-to-top svg {
+    display: none;
+}
+
+.hamburger-menu {
+    width: 30px;
+    height: 24px;
+    position: relative;
+    cursor: pointer;
+    z-index: 1001;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.line-1 {
+    top: 0;
+    transform-origin: right;
+}
+
+.line-2 {
+    top: 50%;
+    transform: translateY(-50%);
+    transform-origin: right;
+}
+
+.line-3 {
+    bottom: 0;
+    transform-origin: right;
+}
+
+.hamburger-menu.active .line-1 {
+    top: 50%;
+    transform: translateY(-50%) rotate(-45deg);
+}
+
+.hamburger-menu.active .line-2 {
+    transform: translateX(-100%);
+    opacity: 0;
+}
+
+.hamburger-menu.active .line-3 {
+    bottom: 50%;
+    transform: translateY(50%) rotate(45deg);
+}
+
+.dropdown-menu {
+    position: absolute;
+    right: 100%;
+    top: 0;
+    background: rgba(10, 25, 47, 0.95);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 0.5rem 0;
+    margin-right: 1rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-origin: right;
+    min-width: 200px;
+    display: none;
+}
+
+.dropdown-menu.show {
+    display: block;
+    animation: slideInMenu 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.nav-item.dropdown {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+@media (max-width: 991px) {
+    .hamburger-menu {
+        display: block;
+    }
+
+    #navbarNav {
+        position: fixed;
+        top: 4rem;
+        left: 0;
+        width: 100%;
+        background: rgba(10, 25, 47, 0.95);
+        padding: 1rem 0;
+        transform: translateY(-100%);
+        opacity: 0;
+        visibility: hidden;
+        backdrop-filter: blur(5px);
+    }
+
+    #navbarNav.show {
+        transform: translateY(0);
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .navbar-nav {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .nav-item {
+        width: 100%;
+        text-align: center;
+    }
+
+    .dropdown-item {
+        color: var(--light-text) !important;
+        padding: 0.5rem 1rem;
+        transition: all 0.3s ease;
+    }
+
+    .dropdown-item:hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: var(--secondary-color) !important;
+    }
+}
+
+#navbarNav {
+    transition: all 0.3s ease;
+}
+
