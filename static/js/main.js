@@ -42,7 +42,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 window.addEventListener('scroll', throttle(function() {
     const navbar = document.querySelector('.navbar');
     const backToTop = document.querySelector('.back-to-top');
-    
+
     if (window.scrollY > 50) {
         navbar.style.background = 'rgba(10, 25, 47, 0.98)';
         navbar.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.3)';
@@ -58,13 +58,13 @@ window.addEventListener('scroll', throttle(function() {
 window.addEventListener('scroll', throttle(function() {
     let sections = document.querySelectorAll('section');
     let navLinks = document.querySelectorAll('.nav-link');
-    
+
     sections.forEach(section => {
         let top = section.offsetTop - 100;
         let bottom = top + section.offsetHeight;
         let scroll = window.scrollY;
         let id = section.getAttribute('id');
-        
+
         if (scroll >= top && scroll < bottom) {
             navLinks.forEach(link => {
                 link.classList.remove('active');
@@ -100,6 +100,33 @@ document.querySelector('.dropdown-menu').addEventListener('click', function(e) {
     e.stopPropagation();
 });
 
+// Hamburger menu functionality
+const hamburgerMenu = document.getElementById('hamburger-icon');
+const navbarNav = document.getElementById('navbarNav');
+
+hamburgerMenu.addEventListener('click', function() {
+    this.classList.toggle('active');
+    const dropdownMenu = document.querySelector('.dropdown-menu');
+    dropdownMenu.classList.toggle('show');
+});
+
+// Close menu when clicking outside
+document.addEventListener('click', function(event) {
+    const isClickInside = hamburgerMenu.contains(event.target) || navbarNav.contains(event.target);
+
+    if (!isClickInside && hamburgerMenu.classList.contains('active')) {
+        hamburgerMenu.classList.remove('active');
+        document.querySelector('.dropdown-menu').classList.remove('show');
+    }
+});
+
+// Close menu when clicking a link
+document.querySelectorAll('.dropdown-item').forEach(item => {
+    item.addEventListener('click', function() {
+        hamburgerMenu.classList.remove('active');
+        document.querySelector('.dropdown-menu').classList.remove('show');
+    });
+});
 
 // Project details data
 const projectDetails = [
@@ -369,7 +396,7 @@ const projectDetails = [
                 background-position: top;
                 border-radius: 8px;
             "></div>`;
-        
+
     modal.querySelector('.project-detail-content').innerHTML = project.content;
 
     // Show modal
