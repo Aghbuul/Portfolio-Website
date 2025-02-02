@@ -38,17 +38,17 @@ document.addEventListener('DOMContentLoaded', function() {
     async function sendMessage(message) {
         // Add user message to chat
         addMessage(message, 'user');
-
+        
         // Show typing indicator
         const typingIndicator = document.createElement('div');
         typingIndicator.className = 'typing-indicator';
         typingIndicator.innerHTML = '<span></span><span></span><span></span>';
         chatMessages.appendChild(typingIndicator);
-
+        
         try {
             const baseUrl = getBaseUrl();
             console.log('Making request to:', `${baseUrl}/chat`); // Debug log
-
+            
             const response = await fetch(`${baseUrl}/chat`, {
                 method: 'POST',
                 headers: {
@@ -70,14 +70,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
             const data = await response.json();
             console.log('Response data:', data); // Debug log
-
+            
             // Remove typing indicator
             typingIndicator.remove();
-
+            
             if (data.error) {
                 throw new Error(data.error);
             }
-
+            
             // Add bot response to chat
             addMessage(data.response, 'bot');
         } catch (error) {
