@@ -253,9 +253,9 @@ const projectDetails = [
         image: "/static/images/CarouselPreview5.jpg",
         content: `
             <h3>Anime Sigil Eyes</h3>
-            <p>A sophisticated web application that leverages machine learning - specifically, Google's MediaPipe Face Mesh - for precise facial landmark detection. It automatically detects eyes in an uploaded image to overlay customisable sigils onto eyes in photographsdeveloped entirely using AI assistance and modern web technologies.</p>
+            <p>A sophisticated web application that leverages machine learning - specifically, Google's MediaPipe Face Mesh - for precise facial landmark detection. It automatically detects eyes in an uploaded image to overlay customisable sigils onto eyes in photographs.</p>
             <p>You can try it <a href="https://anime-eyes.replit.app/" target="_blank" style="color: #64ffda; text-decoration: underline;">here</a>.</p>
-            <p>This was developed with heavy assistance from Replit Agent and Anthropic's Claude. Special thanks to my friend who told me to "Just talk to [Claude] like you hired an engineer" for inspiring me.</p>
+            
 
             <h4>Face Detection Pipeline</h4>
             <ul>
@@ -280,7 +280,7 @@ const projectDetails = [
                 <li>Cross-browser compatibility layer</li>
             </ul>
 
-            <p>Developed using Replit's development environment with AI assistance (Replit AI + Claude).</p>
+            <p>This was developed with heavy assistance from Replit Agent and Anthropic's Claude. Special thanks to my friend who told me to "Just talk to [Claude] like you hired an engineer" for inspiring me.</p>
 
             <div style="margin-top: 1rem; padding-top: 0.5rem; border-top: 1px solid rgba(255,255,255,0.1);">
     <a href="https://anime-eyes.replit.app/" target="_blank" style="color: #64ffda; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 0.375rem 0;">
