@@ -1,14 +1,37 @@
-from flask import Flask, render_template, make_response
+from flask import Flask, render_template, make_response, jsonify
 from chat import init_chat_routes
 import os
 from os import environ
 from flask_cors import CORS
+import logging
+
+# Set up logging
+logging.basicConfig(
+    level=logging.DEBUG,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 print("Starting application...")
 
 # Initialize Flask app
 app = Flask(__name__)
-CORS(app)  # Enable CORS for all routes
+
+# Configure CORS
+CORS(app, resources={
+    r"/chat": {
+        "origins": ["https://*.replit.app", "http://localhost:*"],
+        "methods": ["POST"],
+        "allow_headers": ["Content-Type", "X-Requested-With"]
+    }
+})
+
+# Check for API key in different locations
+api_key = environ.get('OPENAI_API_KEY')
+if not api_key:
+    api_key = os.getenv('OPENAI_API_KEY')
+logger.info("API Key status: " + ("Found" if api_key else "Not found"))
+
 print("Flask app initialized")
 
 # Initialize chat routes
@@ -37,11 +60,21 @@ def profile():
 # Error handlers
 @app.errorhandler(404)
 def not_found_error(error):
+    logger.error(f"404 error: {error}")
     return render_template('404.html'), 404
 
 @app.errorhandler(500)
 def internal_error(error):
+    logger.error(f"500 error: {error}")
     return render_template('500.html'), 500
+
+@app.after_request
+def after_request(response):
+    # Log the response status
+    logger.info(f"Response status: {response.status}")
+    if response.status_code >= 400:
+        logger.error(f"Error response: {response.get_data(as_text=True)}")
+    return response
 
 if __name__ == '__main__':
     # Make sure OPENAI_API_KEY is set in Replit secrets
@@ -57,4 +90,4 @@ if __name__ == '__main__':
     print("Starting Flask development server...")
     # Use Replit's port
     port = int(environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port)
+    app.run(host='0.0.0.0', port=port, debug=True)

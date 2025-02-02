@@ -24,6 +24,16 @@ document.addEventListener('DOMContentLoaded', function() {
         chatContainer.classList.add('hidden');
     });
 
+    // Get the base URL for API requests
+    const getBaseUrl = () => {
+        // Check if we're in the production environment
+        if (window.location.hostname.includes('replit.app')) {
+            return 'https://' + window.location.hostname;
+        }
+        // Local development
+        return window.location.origin;
+    };
+
     // Send message function
     async function sendMessage(message) {
         // Add user message to chat
@@ -36,20 +46,30 @@ document.addEventListener('DOMContentLoaded', function() {
         chatMessages.appendChild(typingIndicator);
 
         try {
-            const response = await fetch('/chat', {
+            const baseUrl = getBaseUrl();
+            console.log('Making request to:', `${baseUrl}/chat`); // Debug log
+
+            const response = await fetch(`${baseUrl}/chat`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
                 },
+                credentials: 'same-origin',
                 body: JSON.stringify({ message: message })
             });
 
+            console.log('Response status:', response.status); // Debug log
+
             if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+                const errorText = await response.text();
+                console.error('Server response:', errorText); // Debug log
+                throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
             }
 
             const data = await response.json();
+            console.log('Response data:', data); // Debug log
 
             // Remove typing indicator
             typingIndicator.remove();
@@ -61,9 +81,9 @@ document.addEventListener('DOMContentLoaded', function() {
             // Add bot response to chat
             addMessage(data.response, 'bot');
         } catch (error) {
-            console.error('Chat error:', error);
+            console.error('Chat error:', error); // Keep this for debugging in console only
             typingIndicator.remove();
-            addMessage('I apologize, but I encountered an error. Please try again in a moment.', 'bot');
+            addMessage('I apologize, but I am temporarily unavailable. Please try again in a moment.', 'bot');
         }
     }
 
