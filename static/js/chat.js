@@ -15,11 +15,11 @@ document.addEventListener('DOMContentLoaded', function() {
     // Global function for handling suggestions
     window.handleSuggestion = function(suggestion) {
         console.log('handleSuggestion called with:', suggestion);
-        
+
         // Remove the clicked suggestion immediately
         const clickedElement = event.target;
         clickedElement.style.display = 'none';
-        
+
         // Add user message
         addMessage(suggestion, 'user');
 
@@ -65,10 +65,21 @@ document.addEventListener('DOMContentLoaded', function() {
     // Send message function
     async function sendMessage(message) {
         console.log('sendMessage called with:', message);
+
+        // Add user message to chat immediately
+        addMessage(message, 'user');
+
         try {
             const baseUrl = getBaseUrl();
             console.log('Making request to:', `${baseUrl}/chat`);
-            
+
+            // Add typing indicator after user message
+            const typingIndicator = document.createElement('div');
+            typingIndicator.className = 'typing-indicator';
+            typingIndicator.innerHTML = '<span></span><span></span><span></span>';
+            chatMessages.appendChild(typingIndicator);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
             const response = await fetch(`${baseUrl}/chat`, {
                 method: 'POST',
                 headers: {
@@ -88,13 +99,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
             const data = await response.json();
             console.log('Response data:', data);
-            
+
             // Remove typing indicator before adding response
             const indicator = document.querySelector('.typing-indicator');
             if (indicator) {
                 indicator.remove();
             }
-            
+
             addMessage(data.response, 'bot');
         } catch (error) {
             console.error('Chat error:', error);
@@ -111,21 +122,21 @@ document.addEventListener('DOMContentLoaded', function() {
     function addMessage(text, sender) {
         console.log('addMessage called:', { text, sender });
         console.log('Messages before adding:', chatMessages.children.length);
-        
+
         const messageDiv = document.createElement('div');
         messageDiv.className = `message ${sender}-message`;
-        
+
         if (sender === 'bot') {
             // Convert markdown to HTML
             let formattedText = marked.parse(text);
             console.log('Parsed markdown:', formattedText);
-            
+
             // Add light cyan color to keywords (text between backticks)
             formattedText = formattedText.replace(
                 /`([^`]+)`/g, 
                 '<span class="keyword">$1</span>'
             );
-            
+
             // Make project names clickable (text between asterisks)
             formattedText = formattedText.replace(
                 /\*([^*]+)\*/g, 
@@ -137,12 +148,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 /<a href="([^"]+)">/g,
                 '<a href="$1" target="_blank" rel="noopener noreferrer">'
             );
-            
+
             messageDiv.innerHTML = formattedText;
         } else {
             messageDiv.textContent = text;
         }
-        
+
         chatMessages.appendChild(messageDiv);
         chatMessages.scrollTop = chatMessages.scrollHeight;
         console.log('Messages after adding:', chatMessages.children.length);
