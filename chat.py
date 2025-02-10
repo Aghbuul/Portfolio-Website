@@ -54,12 +54,36 @@ def init_chat_routes(app):
                 logger.debug("Found API key in os.getenv()")
             else:
                 logger.debug("API key not found in os.getenv()")
-        
+
         if api_key:
             # Log key details without making format assumptions
             logger.debug(f"API key found - length: {len(api_key)}")
             logger.debug(f"API key prefix: {api_key.split('-')[0] if '-' in api_key else 'unknown'}")
         return api_key
+
+    def create_openai_client(api_key):
+        """Create OpenAI client with proper configuration for both local and Replit environments"""
+        try:
+            # Basic configuration
+            config = {
+                "api_key": api_key,
+            }
+
+            # If running on Replit, configure http client manually
+            if 'REPL_ID' in os.environ:
+                import httpx
+                # Create custom httpx client without proxy
+                http_client = httpx.Client(
+                    base_url="https://api.openai.com/v1",
+                    follow_redirects=True,
+                    timeout=60.0
+                )
+                config["http_client"] = http_client
+
+            return OpenAI(**config)
+        except Exception as e:
+            logger.error(f"Error creating OpenAI client: {e}")
+            return None
 
     def moderate_content(text):
         """Use OpenAI's moderation endpoint to check for inappropriate content"""
@@ -69,13 +93,17 @@ def init_chat_routes(app):
                 logger.error("API key not found in any location")
                 return False
 
-            client = OpenAI(api_key=api_key)
+            client = create_openai_client(api_key)
+            if not client:
+                logger.error("Failed to create OpenAI client")
+                return False
+
             response = client.moderations.create(input=text)
             result = response.results[0]
-            
+
             # Log detailed moderation results
             logger.info(f"Moderation results: {result}")
-            
+
             # Only block if flagged as severe
             return not (result.flagged and any([
                 result.categories.hate,
@@ -93,18 +121,18 @@ def init_chat_routes(app):
         try:
             logger.debug(f"Attempting to get embedding for text: {text[:100]}...")
             logger.debug(f"Using OpenAI client with API key starting with: {client.api_key[:4] if client.api_key else 'None'}")
-            
+
             response = client.embeddings.create(
                 model="text-embedding-ada-002",
                 input=text
             )
             logger.debug("Successfully got embedding response")
             logger.debug(f"Response type: {type(response)}")
-            
+
             embedding = response.data[0].embedding
             logger.debug(f"Successfully extracted embedding of length: {len(embedding)}")
             return embedding
-            
+
         except Exception as e:
             logger.error(f"Error getting embedding: {str(e)}")
             logger.error(f"Error type: {type(e)}")
@@ -118,16 +146,16 @@ def init_chat_routes(app):
         # Split into sections based on headers
         sections = re.split(r'(?m)^#{1,3}\s+', text)
         chunks = []
-        
+
         for section in sections:
             if not section.strip():
                 continue
-                
+
             # Split section into smaller chunks if too large
             sentences = re.split(r'(?<=[.!?])\s+', section)
             current_chunk = []
             current_size = 0
-            
+
             for sentence in sentences:
                 sentence_size = len(sentence.split())
                 # Keep related sentences together when possible
@@ -138,10 +166,10 @@ def init_chat_routes(app):
                 else:
                     current_chunk.append(sentence)
                     current_size += sentence_size
-            
+
             if current_chunk:
                 chunks.append(' '.join(current_chunk))
-        
+
         return chunks
 
     def load_context_files():
@@ -161,7 +189,7 @@ def init_chat_routes(app):
                     logger.error("API key not found")
                     return
 
-                client = OpenAI(api_key=api_key)
+                client = create_openai_client(api_key)
 
                 # Process each .txt or .md file in the context directory
                 for filename in os.listdir(context_dir):
@@ -211,7 +239,7 @@ def init_chat_routes(app):
         """Find most relevant content chunks using semantic similarity"""
         all_chunks = []
         logger.info("Finding relevant context for query")
-        
+
         # Process each source and its embeddings
         for source, embeddings in content_embeddings.items():
             logger.info(f"Processing source: {source}")
@@ -219,7 +247,7 @@ def init_chat_routes(app):
                 similarity = cosine_similarity(
                     np.array(query_embedding).reshape(1, -1),
                     np.array(emb).reshape(1, -1))[0][0]
-                
+
                 # Store chunk with metadata
                 all_chunks.append({
                     'text': context_content[source][i],
@@ -227,19 +255,19 @@ def init_chat_routes(app):
                     'source': source,
                     'section': identify_section(context_content[source][i])
                 })
-        
+
         # Sort all chunks by similarity
         all_chunks.sort(key=lambda x: x['similarity'], reverse=True)
         logger.info(f"Found {len(all_chunks)} total chunks")
-        
+
         # Get top k chunks with similarity above threshold
         threshold = 0.2
         top_chunks = [chunk for chunk in all_chunks[:top_k] if chunk['similarity'] > threshold]
-        
+
         if not top_chunks:
             logger.warning("No relevant chunks found above threshold")
             return ["I don't have specific information about that in my current context. However, I can tell you about the projects, skills, or experience sections visible on the portfolio website."]
-        
+
         # Log similarity scores and metadata for debugging
         for i, chunk in enumerate(top_chunks):
             logger.info(f"Chunk {i+1}:")
@@ -247,7 +275,7 @@ def init_chat_routes(app):
             logger.info(f"  Source: {chunk['source']}")
             logger.info(f"  Section: {chunk['section']}")
             logger.info(f"  Preview: {chunk['text'][:100]}...")
-        
+
         # Organize chunks by section for coherent response
         organized_chunks = organize_chunks_by_section(top_chunks)
         return organized_chunks
@@ -261,17 +289,17 @@ def init_chat_routes(app):
             'skills': ['proficient', 'experienced in', 'familiar with', 'expertise'],
             'awards': ['award', 'recognition', 'honored', 'received', 'winner']
         }
-        
+
         text_lower = text.lower()
         max_matches = 0
         best_section = 'general'
-        
+
         for section, keywords in section_keywords.items():
             matches = sum(1 for keyword in keywords if keyword in text_lower)
             if matches > max_matches:
                 max_matches = matches
                 best_section = section
-                
+
         return best_section
 
     def organize_chunks_by_section(chunks):
@@ -283,13 +311,13 @@ def init_chat_routes(app):
             if section not in sections:
                 sections[section] = []
             sections[section].append(chunk['text'])
-        
+
         # Combine chunks within each section
         organized_text = []
         for section in ['projects', 'education', 'experience', 'skills', 'awards', 'general']:
             if section in sections:
                 organized_text.extend(sections[section])
-        
+
         return organized_text
 
     def check_query_abuse(query):
@@ -318,7 +346,7 @@ def init_chat_routes(app):
             logger.debug(f"API Key found: {bool(api_key)}")
             logger.debug(f"API Key first 4 chars: {api_key[:4] if api_key else 'None'}")
             logger.debug(f"API Key length: {len(api_key) if api_key else 'None'}")
-            
+
             if not api_key:
                 logger.error("API key not found")
                 return jsonify({"error": "Service temporarily unavailable"}), 500
@@ -356,15 +384,13 @@ def init_chat_routes(app):
             # Configure OpenAI client
             try:
                 logger.debug("Initializing OpenAI client...")
-                client = OpenAI(api_key=api_key)
+                client = create_openai_client(api_key)
+                if not client:
+                    return jsonify({"error": "Error initializing AI service"}), 500
+
                 logger.debug("OpenAI client initialized successfully")
                 logger.debug(f"Client API key starts with: {client.api_key[:4] if client.api_key else 'None'}")
-                
-                # Test the API key with a simple moderation request
-                logger.debug("Testing API key with moderation request...")
-                test_response = client.moderations.create(input="test")
-                logger.debug("API key test successful")
-                
+
             except Exception as e:
                 logger.error(f"Error initializing OpenAI client: {e}")
                 logger.error(f"Error type: {type(e)}")
@@ -378,7 +404,7 @@ def init_chat_routes(app):
             context_content, content_embeddings = load_context_files()
             logger.debug(f"Context loaded - Number of sources: {len(context_content)}")
             logger.debug(f"Available context keys: {list(context_content.keys())}")
-            
+
             if not context_content:
                 logger.error("Failed to load context files")
                 return jsonify({"error": "Context not available"}), 500
@@ -391,7 +417,7 @@ def init_chat_routes(app):
             except Exception as e:
                 logger.error(f"Error getting embedding: {str(e)}")
                 return jsonify({"error": "Could not process query - Embedding failed"}), 500
-                
+
             if not query_embedding:
                 logger.error("Failed to get query embedding")
                 return jsonify({"error": "Could not process query"}), 500
@@ -423,17 +449,17 @@ def init_chat_routes(app):
                     max_tokens=500,
                     temperature=0.7
                 )
-                
+
                 response = completion.choices[0].message.content
                 logger.info("Chat completion received successfully")
                 logger.debug(f"Response preview: {response[:100]}")
-                
+
                 return jsonify({"response": response})
-                
+
             except Exception as e:
                 logger.error(f"Error in chat completion: {str(e)}")
                 return jsonify({"error": f"Error generating response: {str(e)}"}), 500
-                
+
         except Exception as e:
             logger.error(f"Unexpected error in chat handler: {str(e)}")
             return jsonify({"error": f"Unexpected error: {str(e)}"}), 500
