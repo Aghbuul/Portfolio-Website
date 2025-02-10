@@ -132,6 +132,40 @@
     scrollbar-color: rgba(0, 86, 179, 0.8) rgba(0, 40, 83, 0.1);
 }
 
+.suggestions-container {
+    padding: 12px 20px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.suggestion-chip {
+    background: rgba(0, 86, 179, 0.15);
+    border: 1px solid rgba(100, 255, 218, 0.3);
+    border-radius: 16px;
+    padding: 6px 12px;
+    font-size: 13px;
+    color: #64ffda;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: calc(100% - 16px);
+}
+
+.suggestion-chip:hover {
+    background: rgba(0, 86, 179, 0.25);
+    border-color: rgba(100, 255, 218, 0.5);
+    transform: translateY(-1px);
+}
+
+.suggestion-chip:active {
+    transform: translateY(0);
+}
+
 .message {
     max-width: 85%;
     padding: 12px 16px;
@@ -169,6 +203,75 @@
     border-bottom-left-radius: 5px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Markdown and special formatting styles */
+.bot-message h3 {
+    font-size: 1.2rem;
+    margin: 1rem 0;
+    color: #e9ecef;
+}
+
+.bot-message p {
+    margin: 0 0 8px 0;
+}
+
+.bot-message p:last-child {
+    margin-bottom: 0;
+}
+
+.bot-message ul, .bot-message ol {
+    margin: 8px 0;
+    padding-left: 20px;
+}
+
+/* Add more spacing between numbered items */
+.bot-message ol > li {
+    margin: 1.5rem 0;
+}
+
+.bot-message li {
+    margin: 4px 0;
+}
+
+/* Add more spacing after horizontal rules */
+.bot-message hr {
+    margin: 1.5rem 0;
+    border: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.bot-message .keyword {
+    color: #7fdbca;
+    background: rgba(127, 219, 202, 0.1);
+    padding: 2px 4px;
+    border-radius: 3px;
+    font-family: 'Consolas', monospace;
+}
+
+.bot-message .project-link {
+    color: #64ffda;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.bot-message .project-link:hover {
+    color: #7fdbca;
+    text-decoration: underline;
+}
+
+.project-card.highlight {
+    animation: highlight-pulse 2s ease-in-out;
+}
+
+@keyframes highlight-pulse {
+    0%, 100% {
+        box-shadow: 0 5px 15px rgba(100, 255, 218, 0);
+    }
+    50% {
+        box-shadow: 0 5px 25px rgba(100, 255, 218, 0.5);
+    }
 }
 
 .chat-input-container {
@@ -230,20 +333,31 @@
 /* Loading animation */
 .typing-indicator {
     display: flex;
-    gap: 5px;
+    align-items: center;
+    gap: 4px;
     padding: 12px 16px;
     background: rgba(255, 255, 255, 0.05);
     border-radius: 15px;
+    border-bottom-left-radius: 5px;
+    width: fit-content;
     align-self: flex-start;
     margin: 4px 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .typing-indicator span {
-    width: 6px;
     height: 6px;
-    background: rgba(0, 86, 179, 0.9);
+    width: 6px;
+    background: #64ffda;
+    display: block;
     border-radius: 50%;
+    opacity: 0.4;
     animation: typing 1.4s infinite ease-in-out;
+}
+
+.typing-indicator span:nth-child(1) {
+    animation-delay: 0s;
 }
 
 .typing-indicator span:nth-child(2) {
@@ -257,7 +371,7 @@
 @keyframes typing {
     0%, 100% {
         transform: translateY(0);
-        opacity: 0.5;
+        opacity: 0.4;
     }
     50% {
         transform: translateY(-4px);
