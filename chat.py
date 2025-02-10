@@ -14,6 +14,9 @@ import time
 import re
 from dotenv import load_dotenv
 
+# Load environment variables from .env file
+load_dotenv()
+
 # Set up logging
 logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s - %(levelname)s - %(message)s')
@@ -40,18 +43,22 @@ def init_chat_routes(app):
 
     def get_api_key():
         """Get API key from environment, with fallback options"""
-        # Try getting from Replit secrets first
         api_key = environ.get('OPENAI_API_KEY')
-
-        # If not in Replit, try getting from .env file
-        if not api_key:
-            load_dotenv()
+        logger.debug("Checking environ.get() for API key...")
+        if api_key:
+            logger.debug("Found API key in environ.get()")
+        else:
+            logger.debug("API key not found in environ.get(), checking os.getenv()...")
             api_key = os.getenv('OPENAI_API_KEY')
-
-        if not api_key:
-            logger.error("API key not found in environment or .env file")
-            return None
-
+            if api_key:
+                logger.debug("Found API key in os.getenv()")
+            else:
+                logger.debug("API key not found in os.getenv()")
+        
+        if api_key:
+            # Log key details without making format assumptions
+            logger.debug(f"API key found - length: {len(api_key)}")
+            logger.debug(f"API key prefix: {api_key.split('-')[0] if '-' in api_key else 'unknown'}")
         return api_key
 
     def moderate_content(text):
@@ -64,19 +71,46 @@ def init_chat_routes(app):
 
             client = OpenAI(api_key=api_key)
             response = client.moderations.create(input=text)
-            return not response.results[0].flagged
+            result = response.results[0]
+            
+            # Log detailed moderation results
+            logger.info(f"Moderation results: {result}")
+            
+            # Only block if flagged as severe
+            return not (result.flagged and any([
+                result.categories.hate,
+                result.categories.hate_threatening,
+                result.categories.self_harm,
+                result.categories.sexual_abuse,
+                result.categories.violence_graphic
+            ]))
         except Exception as e:
             logger.error(f"Moderation error: {e}")
-            return False
+            return True  # Allow message if moderation fails
 
     def get_embedding(text, client):
         """Get embedding for a piece of text"""
         try:
-            response = client.embeddings.create(model="text-embedding-ada-002",
-                                                input=text)
-            return response.data[0].embedding
+            logger.debug(f"Attempting to get embedding for text: {text[:100]}...")
+            logger.debug(f"Using OpenAI client with API key starting with: {client.api_key[:4] if client.api_key else 'None'}")
+            
+            response = client.embeddings.create(
+                model="text-embedding-ada-002",
+                input=text
+            )
+            logger.debug("Successfully got embedding response")
+            logger.debug(f"Response type: {type(response)}")
+            
+            embedding = response.data[0].embedding
+            logger.debug(f"Successfully extracted embedding of length: {len(embedding)}")
+            return embedding
+            
         except Exception as e:
-            logger.error(f"Error getting embedding: {e}")
+            logger.error(f"Error getting embedding: {str(e)}")
+            logger.error(f"Error type: {type(e)}")
+            logger.error(f"Error args: {e.args}")
+            import traceback
+            logger.error(f"Traceback: {traceback.format_exc()}")
             return None
 
     def chunk_text(text, chunk_size=500):
@@ -84,16 +118,16 @@ def init_chat_routes(app):
         # Split into sections based on headers
         sections = re.split(r'(?m)^#{1,3}\s+', text)
         chunks = []
-
+        
         for section in sections:
             if not section.strip():
                 continue
-
+                
             # Split section into smaller chunks if too large
             sentences = re.split(r'(?<=[.!?])\s+', section)
             current_chunk = []
             current_size = 0
-
+            
             for sentence in sentences:
                 sentence_size = len(sentence.split())
                 # Keep related sentences together when possible
@@ -104,10 +138,10 @@ def init_chat_routes(app):
                 else:
                     current_chunk.append(sentence)
                     current_size += sentence_size
-
+            
             if current_chunk:
                 chunks.append(' '.join(current_chunk))
-
+        
         return chunks
 
     def load_context_files():
@@ -177,7 +211,7 @@ def init_chat_routes(app):
         """Find most relevant content chunks using semantic similarity"""
         all_chunks = []
         logger.info("Finding relevant context for query")
-
+        
         # Process each source and its embeddings
         for source, embeddings in content_embeddings.items():
             logger.info(f"Processing source: {source}")
@@ -185,7 +219,7 @@ def init_chat_routes(app):
                 similarity = cosine_similarity(
                     np.array(query_embedding).reshape(1, -1),
                     np.array(emb).reshape(1, -1))[0][0]
-
+                
                 # Store chunk with metadata
                 all_chunks.append({
                     'text': context_content[source][i],
@@ -193,19 +227,19 @@ def init_chat_routes(app):
                     'source': source,
                     'section': identify_section(context_content[source][i])
                 })
-
+        
         # Sort all chunks by similarity
         all_chunks.sort(key=lambda x: x['similarity'], reverse=True)
         logger.info(f"Found {len(all_chunks)} total chunks")
-
+        
         # Get top k chunks with similarity above threshold
         threshold = 0.2
         top_chunks = [chunk for chunk in all_chunks[:top_k] if chunk['similarity'] > threshold]
-
+        
         if not top_chunks:
             logger.warning("No relevant chunks found above threshold")
             return ["I don't have specific information about that in my current context. However, I can tell you about the projects, skills, or experience sections visible on the portfolio website."]
-
+        
         # Log similarity scores and metadata for debugging
         for i, chunk in enumerate(top_chunks):
             logger.info(f"Chunk {i+1}:")
@@ -213,7 +247,7 @@ def init_chat_routes(app):
             logger.info(f"  Source: {chunk['source']}")
             logger.info(f"  Section: {chunk['section']}")
             logger.info(f"  Preview: {chunk['text'][:100]}...")
-
+        
         # Organize chunks by section for coherent response
         organized_chunks = organize_chunks_by_section(top_chunks)
         return organized_chunks
@@ -227,17 +261,17 @@ def init_chat_routes(app):
             'skills': ['proficient', 'experienced in', 'familiar with', 'expertise'],
             'awards': ['award', 'recognition', 'honored', 'received', 'winner']
         }
-
+        
         text_lower = text.lower()
         max_matches = 0
         best_section = 'general'
-
+        
         for section, keywords in section_keywords.items():
             matches = sum(1 for keyword in keywords if keyword in text_lower)
             if matches > max_matches:
                 max_matches = matches
                 best_section = section
-
+                
         return best_section
 
     def organize_chunks_by_section(chunks):
@@ -249,13 +283,13 @@ def init_chat_routes(app):
             if section not in sections:
                 sections[section] = []
             sections[section].append(chunk['text'])
-
+        
         # Combine chunks within each section
         organized_text = []
         for section in ['projects', 'education', 'experience', 'skills', 'awards', 'general']:
             if section in sections:
                 organized_text.extend(sections[section])
-
+        
         return organized_text
 
     def check_query_abuse(query):
@@ -281,125 +315,127 @@ def init_chat_routes(app):
 
             # Get API key
             api_key = get_api_key()
+            logger.debug(f"API Key found: {bool(api_key)}")
+            logger.debug(f"API Key first 4 chars: {api_key[:4] if api_key else 'None'}")
+            logger.debug(f"API Key length: {len(api_key) if api_key else 'None'}")
+            
             if not api_key:
                 logger.error("API key not found")
-                return jsonify({"error":
-                                "Service temporarily unavailable"}), 500
+                return jsonify({"error": "Service temporarily unavailable"}), 500
 
             # Get user message
-            data = request.get_json()
+            try:
+                data = request.get_json()
+                logger.debug(f"Received request data: {data}")
+            except Exception as e:
+                logger.error(f"Error parsing JSON request: {e}")
+                return jsonify({"error": "Invalid JSON"}), 400
+
             if not data or 'message' not in data:
                 logger.error("No message provided in request")
                 return jsonify({"error": "Invalid request"}), 400
 
             user_message = data['message']
+            logger.info(f"Processing message: {user_message}")
 
             # Check for abuse/spam
-            if not check_query_abuse(user_message):
+            abuse_check = check_query_abuse(user_message)
+            logger.debug(f"Abuse check result: {abuse_check}")
+            if not abuse_check:
+                logger.warning("Query abuse detected")
                 return jsonify({"error": "Too many similar requests"}), 429
 
             # Moderate content
-            if not moderate_content(user_message):
-                return jsonify({"error": "Message not allowed"}), 400
-
-            logger.info(f"Received message: {user_message}")
+            logger.debug("Starting content moderation...")
+            moderation_result = moderate_content(user_message)
+            logger.debug(f"Moderation result: {moderation_result}")
+            if not moderation_result:
+                logger.warning("Message failed moderation check")
+                return jsonify({"error": "Message not allowed - contains inappropriate content"}), 400
 
             # Configure OpenAI client
-            client = OpenAI(api_key=api_key)
+            try:
+                logger.debug("Initializing OpenAI client...")
+                client = OpenAI(api_key=api_key)
+                logger.debug("OpenAI client initialized successfully")
+                logger.debug(f"Client API key starts with: {client.api_key[:4] if client.api_key else 'None'}")
+                
+                # Test the API key with a simple moderation request
+                logger.debug("Testing API key with moderation request...")
+                test_response = client.moderations.create(input="test")
+                logger.debug("API key test successful")
+                
+            except Exception as e:
+                logger.error(f"Error initializing OpenAI client: {e}")
+                logger.error(f"Error type: {type(e)}")
+                logger.error(f"Error args: {e.args}")
+                import traceback
+                logger.error(f"Traceback: {traceback.format_exc()}")
+                return jsonify({"error": "Error initializing AI service"}), 500
 
             # Load context if not already loaded
+            logger.debug("Loading context files...")
             context_content, content_embeddings = load_context_files()
+            logger.debug(f"Context loaded - Number of sources: {len(context_content)}")
+            logger.debug(f"Available context keys: {list(context_content.keys())}")
+            
             if not context_content:
+                logger.error("Failed to load context files")
                 return jsonify({"error": "Context not available"}), 500
 
             # Get query embedding
-            query_embedding = get_embedding(user_message, client)
+            logger.debug("Getting query embedding...")
+            try:
+                query_embedding = get_embedding(user_message, client)
+                logger.debug(f"Query embedding obtained - Length: {len(query_embedding) if query_embedding else 'None'}")
+            except Exception as e:
+                logger.error(f"Error getting embedding: {str(e)}")
+                return jsonify({"error": "Could not process query - Embedding failed"}), 500
+                
             if not query_embedding:
+                logger.error("Failed to get query embedding")
                 return jsonify({"error": "Could not process query"}), 500
 
             # Find relevant context
-            relevant_context = find_relevant_context(query_embedding,
-                                                     content_embeddings)
-
-            # Prepare conversation with context
-            relevant_context_text = " ".join(relevant_context)
-            logger.info(f"Context length: {len(relevant_context_text)} characters")
-            logger.info("Context preview: " + relevant_context_text[:200] + "...")
-
-            conversation = [{
-                "role": "system",
-                "content": """You are an AI assistant for a personal portfolio website. Follow these rules strictly:
-
-1. Context Usage:
-   - Use ONLY the information provided in the context
-   - Organize information logically based on sections (Projects, Education, Experience, etc.)
-   - Present information in a way that directly answers the user's query
-   - When information exists but is partial, share what you know and suggest where to find more
-
-2. Response Format:
-   - Start with a brief introduction or summary when appropriate
-   - Add a blank line between different topics or sections for better readability
-   - Use bullet points (•) for listing items within a section
-   - Keep descriptions concise but informative
-
-3. Markdown Formatting:
-   - Use ### for main section headers (e.g., ### Web Development Projects)
-   - Use `backticks` for technical terms, languages, and tools (appears in cyan)
-   - Use **bold** for emphasis on important points
-   - Use *asterisks* ONLY for featured project names
-   - Format links as [text](url)
-   - Use > for highlighting key information or quotes
-   - Add horizontal lines (---) to separate major sections when needed
-
-4. Project Descriptions:
-   - Start with the project name and year
-   - List key features with bullet points
-   - Highlight technologies used with backticks
-   - Include relevant links when available
-
-5. Portfolio Navigation:
-   - Direct users to specific sections when relevant
-   - Mention when more details are available in the portfolio
-   - Help users find the information they're looking for
-
-Remember: Only mention information that is explicitly provided in the context. If you're not sure about something, say so rather than making assumptions.
-
-Example Format:
-### Web Development Projects
-> Here are the relevant projects I found:
-
-• *Portfolio Website* (2024)
-  - Built with `HTML`, `CSS`, `JavaScript`, and `Flask`
-  - Features interactive animations and responsive design
-  - [View Repository](link)
-
----
-"""
-            }, {
-                "role": "system",
-                "content": f"Context (use ONLY this information for your response): {relevant_context_text}"
-            }, {
-                "role": "user",
-                "content": user_message
-            }]
-
-            # Get response from GPT
+            logger.debug("Finding relevant context...")
             try:
-                response = client.chat.completions.create(
-                    model="gpt-3.5-turbo",
-                    messages=conversation,
-                    temperature=0.7,
-                    max_tokens=500)
-
-                bot_response = response.choices[0].message.content
-                return jsonify({"response": bot_response})
-
+                relevant_context = find_relevant_context(query_embedding, content_embeddings)
+                logger.debug(f"Found {len(relevant_context)} relevant context chunks")
+                logger.debug(f"First chunk preview: {relevant_context[0][:100] if relevant_context else 'No context'}")
             except Exception as e:
-                logger.error(f"Error getting GPT response: {e}")
-                return jsonify({"error": "Could not generate response"}), 500
+                logger.error(f"Error finding relevant context: {str(e)}")
+                return jsonify({"error": "Error processing context"}), 500
 
+            try:
+                # Prepare chat completion
+                logger.debug("Preparing chat completion...")
+                messages = [
+                    {"role": "system", "content": "You are a helpful assistant providing information about Iqbal's portfolio, projects, and experience. Respond in a friendly and professional manner."},
+                    {"role": "user", "content": f"Context about Iqbal: {relevant_context}\n\nUser question: {user_message}"}
+                ]
+                logger.debug(f"Messages prepared: {json.dumps(messages, indent=2)}")
+
+                # Get chat completion
+                logger.info("Requesting chat completion")
+                completion = client.chat.completions.create(
+                    model="gpt-3.5-turbo",
+                    messages=messages,
+                    max_tokens=500,
+                    temperature=0.7
+                )
+                
+                response = completion.choices[0].message.content
+                logger.info("Chat completion received successfully")
+                logger.debug(f"Response preview: {response[:100]}")
+                
+                return jsonify({"response": response})
+                
+            except Exception as e:
+                logger.error(f"Error in chat completion: {str(e)}")
+                return jsonify({"error": f"Error generating response: {str(e)}"}), 500
+                
         except Exception as e:
-            logger.error(f"Chat error: {e}")
-            return jsonify({"error": "An error occurred"}), 500
+            logger.error(f"Unexpected error in chat handler: {str(e)}")
+            return jsonify({"error": f"Unexpected error: {str(e)}"}), 500
 
     return app

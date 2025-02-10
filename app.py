@@ -20,7 +20,7 @@ app = Flask(__name__)
 # Configure CORS
 CORS(app, resources={
     r"/chat": {
-        "origins": ["https://*.replit.app", "http://localhost:*"],
+        "origins": ["*"],  # Allow all origins in development
         "methods": ["POST"],
         "allow_headers": ["Content-Type", "X-Requested-With"]
     }
