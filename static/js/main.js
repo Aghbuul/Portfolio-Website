@@ -42,7 +42,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 window.addEventListener('scroll', throttle(function() {
     const navbar = document.querySelector('.navbar');
     const backToTop = document.querySelector('.back-to-top');
-    
+
     if (window.scrollY > 50) {
         navbar.style.background = 'rgba(10, 25, 47, 0.98)';
         navbar.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.3)';
@@ -58,13 +58,13 @@ window.addEventListener('scroll', throttle(function() {
 window.addEventListener('scroll', throttle(function() {
     let sections = document.querySelectorAll('section');
     let navLinks = document.querySelectorAll('.nav-link');
-    
+
     sections.forEach(section => {
         let top = section.offsetTop - 100;
         let bottom = top + section.offsetHeight;
         let scroll = window.scrollY;
         let id = section.getAttribute('id');
-        
+
         if (scroll >= top && scroll < bottom) {
             navLinks.forEach(link => {
                 link.classList.remove('active');
@@ -113,7 +113,7 @@ hamburgerMenu.addEventListener('click', function() {
 // Close menu when clicking outside
 document.addEventListener('click', function(event) {
     const isClickInside = hamburgerMenu.contains(event.target) || navbarNav.contains(event.target);
-    
+
     if (!isClickInside && hamburgerMenu.classList.contains('active')) {
         hamburgerMenu.classList.remove('active');
         document.querySelector('.dropdown-menu').classList.remove('show');
@@ -255,7 +255,7 @@ const projectDetails = [
             <h3>Anime Sigil Eyes</h3>
             <p>A sophisticated web application that leverages machine learning - specifically, Google's MediaPipe Face Mesh - for precise facial landmark detection. It automatically detects eyes in an uploaded image to overlay customisable sigils onto eyes in photographs.</p>
             <p>You can try it <a href="https://anime-eyes.replit.app/" target="_blank" style="color: #64ffda; text-decoration: underline;">here</a>.</p>
-            
+
 
             <h4>Face Detection Pipeline</h4>
             <ul>
@@ -396,7 +396,7 @@ const projectDetails = [
                 background-position: top;
                 border-radius: 8px;
             "></div>`;
-        
+
     modal.querySelector('.project-detail-content').innerHTML = project.content;
 
     // Show modal
@@ -439,3 +439,36 @@ const projectDetails = [
 
     modalInstance.show();
 }
+
+// Touch handling for carousel
+document.addEventListener('DOMContentLoaded', function() {
+    const carousel = document.getElementById('projectCarousel');
+    if (!carousel) return;
+
+    let touchStartX = 0;
+    let touchEndX = 0;
+    const swipeThreshold = 50; // minimum distance for a swipe
+
+    carousel.addEventListener('touchstart', function(e) {
+        touchStartX = e.touches[0].clientX;
+    }, false);
+
+    carousel.addEventListener('touchmove', function(e) {
+        touchEndX = e.touches[0].clientX;
+    }, false);
+
+    carousel.addEventListener('touchend', function() {
+        const swipeDistance = touchEndX - touchStartX;
+
+        if (Math.abs(swipeDistance) > swipeThreshold) {
+            const carouselInstance = bootstrap.Carousel.getInstance(carousel);
+            if (swipeDistance > 0) {
+                // Swipe right - go to previous
+                carouselInstance.prev();
+            } else {
+                // Swipe left - go to next
+                carouselInstance.next();
+            }
+        }
+    }, false);
+});

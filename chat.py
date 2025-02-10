@@ -42,16 +42,16 @@ def init_chat_routes(app):
         """Get API key from environment, with fallback options"""
         # Try getting from Replit secrets first
         api_key = environ.get('OPENAI_API_KEY')
-        
+
         # If not in Replit, try getting from .env file
         if not api_key:
             load_dotenv()
             api_key = os.getenv('OPENAI_API_KEY')
-        
+
         if not api_key:
             logger.error("API key not found in environment or .env file")
             return None
-        
+
         return api_key
 
     def moderate_content(text):
@@ -84,16 +84,16 @@ def init_chat_routes(app):
         # Split into sections based on headers
         sections = re.split(r'(?m)^#{1,3}\s+', text)
         chunks = []
-        
+
         for section in sections:
             if not section.strip():
                 continue
-                
+
             # Split section into smaller chunks if too large
             sentences = re.split(r'(?<=[.!?])\s+', section)
             current_chunk = []
             current_size = 0
-            
+
             for sentence in sentences:
                 sentence_size = len(sentence.split())
                 # Keep related sentences together when possible
@@ -104,10 +104,10 @@ def init_chat_routes(app):
                 else:
                     current_chunk.append(sentence)
                     current_size += sentence_size
-            
+
             if current_chunk:
                 chunks.append(' '.join(current_chunk))
-        
+
         return chunks
 
     def load_context_files():
@@ -177,7 +177,7 @@ def init_chat_routes(app):
         """Find most relevant content chunks using semantic similarity"""
         all_chunks = []
         logger.info("Finding relevant context for query")
-        
+
         # Process each source and its embeddings
         for source, embeddings in content_embeddings.items():
             logger.info(f"Processing source: {source}")
@@ -185,7 +185,7 @@ def init_chat_routes(app):
                 similarity = cosine_similarity(
                     np.array(query_embedding).reshape(1, -1),
                     np.array(emb).reshape(1, -1))[0][0]
-                
+
                 # Store chunk with metadata
                 all_chunks.append({
                     'text': context_content[source][i],
@@ -193,19 +193,19 @@ def init_chat_routes(app):
                     'source': source,
                     'section': identify_section(context_content[source][i])
                 })
-        
+
         # Sort all chunks by similarity
         all_chunks.sort(key=lambda x: x['similarity'], reverse=True)
         logger.info(f"Found {len(all_chunks)} total chunks")
-        
+
         # Get top k chunks with similarity above threshold
         threshold = 0.2
         top_chunks = [chunk for chunk in all_chunks[:top_k] if chunk['similarity'] > threshold]
-        
+
         if not top_chunks:
             logger.warning("No relevant chunks found above threshold")
             return ["I don't have specific information about that in my current context. However, I can tell you about the projects, skills, or experience sections visible on the portfolio website."]
-        
+
         # Log similarity scores and metadata for debugging
         for i, chunk in enumerate(top_chunks):
             logger.info(f"Chunk {i+1}:")
@@ -213,7 +213,7 @@ def init_chat_routes(app):
             logger.info(f"  Source: {chunk['source']}")
             logger.info(f"  Section: {chunk['section']}")
             logger.info(f"  Preview: {chunk['text'][:100]}...")
-        
+
         # Organize chunks by section for coherent response
         organized_chunks = organize_chunks_by_section(top_chunks)
         return organized_chunks
@@ -227,17 +227,17 @@ def init_chat_routes(app):
             'skills': ['proficient', 'experienced in', 'familiar with', 'expertise'],
             'awards': ['award', 'recognition', 'honored', 'received', 'winner']
         }
-        
+
         text_lower = text.lower()
         max_matches = 0
         best_section = 'general'
-        
+
         for section, keywords in section_keywords.items():
             matches = sum(1 for keyword in keywords if keyword in text_lower)
             if matches > max_matches:
                 max_matches = matches
                 best_section = section
-                
+
         return best_section
 
     def organize_chunks_by_section(chunks):
@@ -249,13 +249,13 @@ def init_chat_routes(app):
             if section not in sections:
                 sections[section] = []
             sections[section].append(chunk['text'])
-        
+
         # Combine chunks within each section
         organized_text = []
         for section in ['projects', 'education', 'experience', 'skills', 'awards', 'general']:
             if section in sections:
                 organized_text.extend(sections[section])
-        
+
         return organized_text
 
     def check_query_abuse(query):
