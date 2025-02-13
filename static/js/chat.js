@@ -23,21 +23,8 @@ document.addEventListener('DOMContentLoaded', function() {
         // Add user message
         addMessage(suggestion, 'user');
 
-        // Add typing indicator before sending message
-        const typingIndicator = document.createElement('div');
-        typingIndicator.className = 'typing-indicator';
-        typingIndicator.innerHTML = '<span></span><span></span><span></span>';
-        chatMessages.appendChild(typingIndicator);
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-
-        // Send message and handle response
-        sendMessage(suggestion).then(() => {
-            // Remove typing indicator after response
-            const indicator = document.querySelector('.typing-indicator');
-            if (indicator) {
-                indicator.remove();
-            }
-        });
+        // Send message and handle response, skip adding user message since we already did
+        sendMessage(suggestion, true);
     };
 
     // Toggle chat window
@@ -63,11 +50,13 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     // Send message function
-    async function sendMessage(message) {
+    async function sendMessage(message, skipUserMessage = false) {
         console.log('sendMessage called with:', message);
 
-        // Add user message to chat immediately
-        addMessage(message, 'user');
+        // Add user message to chat immediately, unless skipUserMessage is true
+        if (!skipUserMessage) {
+            addMessage(message, 'user');
+        }
 
         try {
             const baseUrl = getBaseUrl();
@@ -176,7 +165,7 @@ document.addEventListener('DOMContentLoaded', function() {
     sendButton.addEventListener('click', () => {
         const message = chatInput.value.trim();
         if (message) {
-            sendMessage(message);
+            sendMessage(message, false);  // Don't skip user message for manual input
             chatInput.value = '';
         }
     });
@@ -186,7 +175,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (e.key === 'Enter') {
             const message = chatInput.value.trim();
             if (message) {
-                sendMessage(message);
+                sendMessage(message, false);  // Don't skip user message for manual input
                 chatInput.value = '';
             }
         }
